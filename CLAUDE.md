@@ -4,19 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This repository contains two self-contained HTML reports (client-side dashboards that compare global AI Coding Plan / Token Plan pricing across 16 vendors and 60+ subscription tiers):
+This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 16 vendors and 60+ subscription tiers):
 
-- **`coding-plan-report.html`** — the working light-theme report.
-- **`coding-plan-report-aihot.html`** — a copy whose entire UI is restyled to match the AIHOT dark theme (see `aihot.virxact.com`; dark `#10151c` page, teal `#4fa3b3` accent, dark sidebar).
+- **`coding-plan-report.html`** — the single merged report. It supports **light/dark theme switching** (sidebar「外观」→ 自动 / 浅色 / 深色), implemented the same way as the AIHOT site (`aihot.virxact.com`): `<html data-theme="light|dark">` + two sets of CSS variables + `localStorage['aihot-theme']`, default `auto` follows `prefers-color-scheme`.
 
-Both are fully self-contained (CSS, data, and vanilla JS in one file) with no build system, package manager, or server. They share the same data arrays and JS; only the `<style>` block differs between the two. When editing data/JS, apply changes to **both** files (the copy was created with `cp`, so they diverge if only one is edited).
+The file is fully self-contained (CSS, data, and vanilla JS in one file) with no build system, package manager, or server.
 
 ## Common commands
 
 There are no build, lint, or test scripts. Useful operations:
 
-- **View the report**: open `coding-plan-report.html` in a browser.
-- **Validate the embedded JavaScript syntax** (requires extracting the `<script>` block):
+- **View the report**: open `coding-plan-report.html` in a browser (light/dark switches live in the left sidebar).
+- **Validate the embedded JavaScript syntax** (requires extracting the `<script>` block; there are two — the small theme-init block in `<head>` and the main app block in `<body>`):
   ```bash
   node --check <(sed -n '/<script>/,/<\/script>/p' coding-plan-report.html | sed 's/<\/?script>//g')
   ```
@@ -26,6 +25,11 @@ There are no build, lint, or test scripts. Useful operations:
 ## Architecture
 
 - **Single-file static app**: `coding-plan-report.html` bundles CSS, data, and vanilla JS. It has no external dependencies.
+- **Theme system** (merged from the former two files — light edition + AIHOT dark edition):
+  - `:root` defines the **dark** palette (AIHOT skin) and `:root[data-theme="light"]` overrides it (original light skin).
+  - All component styles must reference **variables only** — no hard-coded colors — so both palettes work. Component semantic variables live at the bottom of each palette (e.g. `--header-bg`, `--th-bg`, `--filter-active-bg`, `--ref-bg`, `--muted`).
+  - Theme init runs twice: a tiny in-`<head>` script (avoids flash-of-wrong-theme, sets `data-theme`/`data-theme-mode` on `<html>` before paint) and the interactive `applyTheme()` in the body script (binds the `#themeSwitch` buttons, persists to `localStorage['aihot-theme']`, watches `prefers-color-scheme` changes in auto mode).
+  - JS template strings occasionally reference variables (e.g. `var(--good-soft)` for the best-row background, `var(--ref-bg)` for the API-payg row, `var(--warn)` for promo text); keep those variable-based when editing.
 - **Data model**:
   - `companies[]` — each vendor has metadata (`region`, `url`, `desc`) and `plans[]`.
   - Each plan has `price`, `cur` (`'CNY'` | `'USD'`), `tokensM` (estimated monthly tokens in millions), `models[]`, plus optional `promo`, `annual`, `tag`, and `payg`.
@@ -39,7 +43,8 @@ There are no build, lint, or test scripts. Useful operations:
   - Display currency is fixed to CNY (`dispMoney` / `dispCost` / `costUnit`); the CNY↔USD toggle was removed. `FX` is still used to convert USD-denominated plan prices to CNY for comparison.
 - **Rendering**:
   - Four tabs: ranking by cost, vendor cards, model query, and methodology.
-  - Navigation is driven by the left sidebar (`data-tab` links → `switchTab`); there is no top nav bar. A region filter (`applyRegion`) is shared across the sidebar and the in-tab filters.
+  - Navigation is driven by the left sidebar (`data-tab` links → `switchTab`); there is no top nav bar. The sidebar also hosts the region filter (全部/仅国内/仅国外) and the theme switch (自动/浅色/深色). There are **no in-tab region filter buttons** — they were removed because the sidebar covers it; `applyRegion` is driven solely by `#sidebarRegion`.
+  - `switchTab` toggles the `side-link-active` class on sidebar links (CSS class name — do not revert to a generic `active` class, that was the old highlighter bug).
   - `renderRank` sorts `allPlans` by `planCost` and draws a logarithmic comparison bar.
   - `renderCompany` groups models into "strong" vs. "base" chips using `strongModels` set and the heuristic `m.r >= 1.5`.
   - `showModel` computes per-model effective cost (`tokensM / rate`) and ranks supporting subscriptions.
@@ -47,10 +52,11 @@ There are no build, lint, or test scripts. Useful operations:
 
 ## Data maintenance conventions
 
-- Keep the report self-contained: add new vendors/plans/models by editing the JS arrays inside the HTML files. Apply the change to **both** `coding-plan-report.html` and `coding-plan-report-aihot.html` to keep them in sync.
+- Keep the report self-contained: add new vendors/plans/models by editing the JS arrays inside the HTML file.
 - Do not hard-code derived totals (vendor count, plan count) in the subtitle or stat strip; the code already computes them from the data.
 - When adding a new strong/flagship model, also add it to `strongModels` so it renders in the top chip group on company cards.
 - Verify that any newly added plan has either a positive `tokensM` or is explicitly marked `payg: true` / `price: 0`, otherwise ranking calculations may produce `NaN`.
+- When adding new UI chrome, keep colors variable-based so both light and dark palettes stay consistent; check both themes in the browser afterward.
 
 ## Memory
 
