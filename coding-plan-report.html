@@ -13,7 +13,7 @@
   :root{
     color-scheme:dark;
     --bg-0:#10151c; --bg-1:#171d26; --bg-2:#1b2230;
-    --surface-card:#171d26; --surface-1:rgba(255,255,255,.04); --surface-2:rgba(255,255,255,.07); --surface-3:rgba(255,255,255,.10);
+    --surface-0:rgba(255,255,255,.03); --surface-card:#171d26; --surface-1:rgba(255,255,255,.04); --surface-2:rgba(255,255,255,.07); --surface-3:rgba(255,255,255,.10);
     --text-0:#e8ebf2; --text-1:#98a2b3; --text-2:#7b869a;
     --border:rgba(255,255,255,.08); --border-strong:rgba(255,255,255,.12); --border-soft:rgba(255,255,255,.06); --border-emphasis:rgba(255,255,255,.22);
     --accent:#4fa3b3; --accent-fg:#6cb8c6; --accent-rgb:79,163,179; --accent-soft:rgba(79,163,179,.12); --accent-border:rgba(79,163,179,.35);
@@ -34,12 +34,13 @@
     --filter-active-bg:rgba(79,163,179,.1); --filter-active-fg:#6cb8c6;
     --result-head-bg:#171d26; --result-head-fg:#e8ebf2; --result-head-border:rgba(255,255,255,.08); --result-head-bb:0;
     --muted:#7b869a;
+    --shadow-thumb:0 1px 3px rgba(0,0,0,.4);
     --theme-transition:background-color 220ms ease,background 220ms ease,color 180ms ease,border-color 180ms ease,box-shadow 220ms ease;
   }
   :root[data-theme="light"]{
     color-scheme:light;
     --bg-0:#f5f7fa; --bg-1:#f0f3f9; --bg-2:#e9edf4;
-    --surface-card:#ffffff; --surface-1:rgba(20,35,80,.04); --surface-2:rgba(20,35,80,.06); --surface-3:rgba(20,35,80,.09);
+    --surface-0:rgba(28,39,51,.025); --surface-card:#ffffff; --surface-1:rgba(20,35,80,.04); --surface-2:rgba(20,35,80,.06); --surface-3:rgba(20,35,80,.09);
     --text-0:#1a2333; --text-1:#41506b; --text-2:#6b7688;
     --border:#e5e9f0; --border-strong:#d5dbe6; --border-soft:#edf0f6; --border-emphasis:#9aa6ba;
     --accent:#2b5bd7; --accent-fg:#2b5bd7; --accent-rgb:43,91,215; --accent-soft:#eaf0fe; --accent-border:#cdd9fb;
@@ -60,6 +61,7 @@
     --filter-active-bg:#2b5bd7; --filter-active-fg:#ffffff;
     --result-head-bg:linear-gradient(135deg,#1e3a8a,#3b6ef6); --result-head-fg:#ffffff; --result-head-border:transparent; --result-head-bb:1px solid transparent;
     --muted:#6b7688;
+    --shadow-thumb:0 1px 3px rgba(28,39,51,.14);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{background:var(--bg-0);}
@@ -83,6 +85,17 @@
   .side-filter{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);color:var(--text-1);font-size:13px;font-weight:500;background:none;border:0;cursor:pointer;text-align:left;font-family:inherit;transition:var(--theme-transition);width:100%;}
   .side-filter:hover{background:var(--hover-bg);color:var(--text-0);}
   .side-filter.active{background:var(--accent-soft);color:var(--accent-fg);font-weight:600;}
+  /* ---- 主题切换（AIHOT 风格分段滑块：深色 / 跟随系统 / 浅色） ---- */
+  .theme-toggle{position:relative;display:grid;grid-template-columns:repeat(3,1fr);align-items:center;height:34px;padding:3px;margin:4px 4px 8px;border-radius:999px;border:1px solid var(--border);background:var(--surface-0);isolation:isolate;transition:var(--theme-transition);}
+  .theme-toggle-thumb{position:absolute;top:3px;bottom:3px;left:3px;width:calc((100% - 6px)/3);border-radius:999px;background:var(--surface-2);border:1px solid var(--border-strong);box-shadow:var(--shadow-thumb);transition:transform .26s cubic-bezier(.32,.72,0,1),background .2s ease,border-color .2s ease;z-index:0;}
+  .theme-toggle-thumb[data-pos="dark"]{transform:translateX(0);}
+  .theme-toggle-thumb[data-pos="auto"]{transform:translateX(100%);}
+  .theme-toggle-thumb[data-pos="light"]{transform:translateX(200%);}
+  .theme-toggle-opt{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;height:100%;background:transparent;border:0;border-radius:999px;cursor:pointer;color:var(--text-2);transition:color .18s ease,transform .12s ease;padding:0;}
+  .theme-toggle-opt:hover{color:var(--text-1);}
+  .theme-toggle-opt:active{transform:scale(.94);}
+  .theme-toggle-opt-active,.theme-toggle-opt-active:hover{color:var(--text-0);}
+  .theme-toggle-opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
   .sidebar-footer{display:grid;gap:4px;padding:0 4px;}
   .sidebar-filing{padding:0 8px 4px;color:var(--text-2);font-size:10px;line-height:1.4;text-align:left;}
   .app-main{flex:1;min-width:0;}
@@ -216,10 +229,11 @@
         <button class="side-filter" data-r="intl">仅国外</button>
       </div>
       <div class="side-group">外观</div>
-      <div id="themeSwitch" class="side-filters">
-        <button class="side-filter active" data-theme="auto">自动</button>
-        <button class="side-filter" data-theme="light">浅色</button>
-        <button class="side-filter" data-theme="dark">深色</button>
+      <div id="themeSwitch" class="theme-toggle" role="radiogroup" aria-label="主题">
+        <span class="theme-toggle-thumb" data-pos="auto" aria-hidden="true"></span>
+        <button type="button" role="radio" aria-checked="false" aria-label="深色" title="深色" class="theme-toggle-opt" data-theme="dark"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+        <button type="button" role="radio" aria-checked="true" aria-label="跟随系统" title="跟随系统" class="theme-toggle-opt theme-toggle-opt-active" data-theme="auto"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+        <button type="button" role="radio" aria-checked="false" aria-label="浅色" title="浅色" class="theme-toggle-opt" data-theme="light"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
       </div>
     </nav>
     <div class="sidebar-footer">
@@ -862,7 +876,8 @@ document.getElementById('cnCompanies').addEventListener('click', e=>{
 
 /* ==================== 主题切换（深色 / 浅色 / 自动） ====================
    与 head 中的初始化脚本共享 localStorage 键 'aihot-theme'；
-   auto 模式跟随系统 prefers-color-scheme，手动选择后固定。 */
+   auto 模式跟随系统 prefers-color-scheme，手动选择后固定。
+   UI 为 AIHOT 风格分段滑块（theme-toggle），applyTheme 同步滑块 thumb 位置。 */
 function applyTheme(mode){
   const root = document.documentElement;
   root.setAttribute('data-theme-mode', mode);
@@ -870,7 +885,13 @@ function applyTheme(mode){
     ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
     : mode;
   root.setAttribute('data-theme', actual);
-  document.querySelectorAll('#themeSwitch .theme-opt').forEach(b=> b.classList.toggle('active', b.dataset.theme===mode));
+  document.querySelectorAll('#themeSwitch .theme-toggle-opt').forEach(b=>{
+    const on = b.dataset.theme===mode;
+    b.classList.toggle('theme-toggle-opt-active', on);
+    b.setAttribute('aria-checked', on);
+  });
+  const thumb = document.querySelector('#themeSwitch .theme-toggle-thumb');
+  if(thumb) thumb.setAttribute('data-pos', mode);
   try{ localStorage.setItem('aihot-theme', mode); }catch(e){}
 }
 (function initThemeUI(){
@@ -878,12 +899,18 @@ function applyTheme(mode){
   try{ saved = localStorage.getItem('aihot-theme'); }catch(e){}
   applyTheme(['dark','light','auto'].indexOf(saved)>=0 ? saved : 'auto');
 })();
-document.querySelectorAll('#themeSwitch .theme-opt').forEach(btn=>{
-  btn.addEventListener('click', ()=> applyTheme(btn.dataset.theme));
+/* 事件委托：点击滑块内任一选项即切主题 */
+document.getElementById('themeSwitch').addEventListener('click', e=>{
+  const b = e.target.closest('.theme-toggle-opt');
+  if(b) applyTheme(b.dataset.theme);
 });
-window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', ()=>{
-  if(document.documentElement.getAttribute('data-theme-mode')==='auto') applyTheme('auto');
-});
+/* 跟随系统时监听 OS 主题变化（兼容老浏览器的 addListener 回退） */
+(function bindSchemeWatch(){
+  const mq = window.matchMedia('(prefers-color-scheme: light)');
+  const fn = ()=>{ if(document.documentElement.getAttribute('data-theme-mode')==='auto') applyTheme('auto'); };
+  if(mq.addEventListener) mq.addEventListener('change', fn);
+  else if(mq.addListener) mq.addListener(fn);
+})();
 </script>
 </body>
 </html>

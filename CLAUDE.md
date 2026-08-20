@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 16 vendors and 60+ subscription tiers):
 
-- **`coding-plan-report.html`** — the single merged report. It supports **light/dark theme switching** (sidebar「外观」→ 自动 / 浅色 / 深色), implemented the same way as the AIHOT site (`aihot.virxact.com`): `<html data-theme="light|dark">` + two sets of CSS variables + `localStorage['aihot-theme']`, default `auto` follows `prefers-color-scheme`.
+- **`coding-plan-report.html`** — the single merged report. It supports **light/dark theme switching** via an AIHOT-style segmented slider in the sidebar「外观」(深色 / 跟随系统 / 浅色), implemented the same way as the AIHOT site (`aihot.virxact.com`): `<html data-theme="light|dark">` + two sets of CSS variables + `localStorage['aihot-theme']`, default `auto` follows `prefers-color-scheme`. Verified working in a real browser (chrome-devtools-mcp): clicking each option flips `data-theme`/body background and slides the `.theme-toggle-thumb`; the choice survives reload (head script applies it before paint).
 
 The file is fully self-contained (CSS, data, and vanilla JS in one file) with no build system, package manager, or server.
 
@@ -28,7 +28,7 @@ There are no build, lint, or test scripts. Useful operations:
 - **Theme system** (merged from the former two files — light edition + AIHOT dark edition):
   - `:root` defines the **dark** palette (AIHOT skin) and `:root[data-theme="light"]` overrides it (original light skin).
   - All component styles must reference **variables only** — no hard-coded colors — so both palettes work. Component semantic variables live at the bottom of each palette (e.g. `--header-bg`, `--th-bg`, `--filter-active-bg`, `--ref-bg`, `--muted`).
-  - Theme init runs twice: a tiny in-`<head>` script (avoids flash-of-wrong-theme, sets `data-theme`/`data-theme-mode` on `<html>` before paint) and the interactive `applyTheme()` in the body script (binds the `#themeSwitch` buttons, persists to `localStorage['aihot-theme']`, watches `prefers-color-scheme` changes in auto mode).
+  - Theme init runs twice: a tiny in-`<head>` script (avoids flash-of-wrong-theme, sets `data-theme`/`data-theme-mode` on `<html>` before paint) and the interactive `applyTheme()` in the body script. It binds `#themeSwitch` via **event delegation** on the `.theme-toggle-opt` buttons (AIHOT-style segmented slider with a `.theme-toggle-thumb` whose `data-pos` matches `dark`/`auto`/`light`), persists to `localStorage['aihot-theme']`, and watches `prefers-color-scheme` changes in auto mode (with `addListener` fallback for older browsers).
   - JS template strings occasionally reference variables (e.g. `var(--good-soft)` for the best-row background, `var(--ref-bg)` for the API-payg row, `var(--warn)` for promo text); keep those variable-based when editing.
 - **Data model**:
   - `companies[]` — each vendor has metadata (`region`, `url`, `desc`) and `plans[]`.
