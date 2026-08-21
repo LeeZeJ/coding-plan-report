@@ -326,3 +326,13 @@ https://mimo.mi.com/docs/price/token-plan                              # 小米 
 | platform.moonshot.cn/docs/pricing/chat-v1 | 301 → platform.kimi.com | 已更新 |
 | intl.minimaxi.com/docs/coding-plan/intro | 301 → platform.minimax.io/docs/token-plan/intro | 保留（国际站域名迁移，仍可达） |
 | 其余 45 条链接 | ✓200 | 无需改动 |
+
+### 2026-08-20 API 按量参考价补全记录（本次新增）
+
+报告 `coding-plan-report.html` 中 `apiRefs[]` 由 22 条补全至 57 条，覆盖全部有公开 API 按量价的模型（67 个模型 → 56 个有参考价，剩余 11 个为工具/多模态/免费类，无 token 按量口径，不列）：
+
+- **新增 35 条**（官方牌价，截至 2026-08-20）：Claude Opus 4.6 / Fable 5（$10/$50）、GPT-5.6 Terra / Luna / Sol Pro、GPT-5.5 / 5.4 / 5 / 5.3-Codex / 5.3-Codex-Spark / o3、Gemini 3 Pro / 2.5 Pro / 3.5 Flash-Lite / Deep Think、Grok 4.1 Fast / 4 Heavy、Kimi K2.5 / K2.7 Code、DeepSeek-V3.2、ERNIE 5.0、MiniMax-M3 / M2.5 / M2.5-highspeed、GLM-5.1 / GLM-5 / GLM-4.7 / GLM-4.5-Air、Qwen3.8-Max / qwen3.7-max / qwen3.7-plus / qwen3.6-plus / qwen3-coder-plus、Doubao-Seed-2.0-Code、混元 HY
+- **修正 5 条**：MiniMax 命名 `M2.7`→`MiniMax-M2.7`（原名字不匹配导致模型查询无 API 价）；ERNIE 4.5-Turbo 输出 0.16→3.2 元/百万（官方 0.0032 元/千）；Claude Opus 4.8 15/75→5/25、Haiku 4.5 0.8/4→1/5（对齐官方）；GLM 系列统一官方 2026-08-09 快照（GLM-5.2 2/8→8/28、GLM-5-Turbo 0.5/2→5/22 等）
+- **UI 修正**：模型查询页 CNY 参考行小字原写死「DeepSeek 官方」，改为统一「官方牌价」
+- 口径：USD=国际站牌价（Kimi/OpenAI/Anthropic/Google/xAI）；CNY=国内站牌价（阿里/智谱/火山/腾讯/百度/MiniMax/DeepSeek）；订阅专属模型（Sol Pro/Grok 4 Heavy/Gemini Deep Think）无独立 API 牌价，按倍率估算并标注「参考」
+

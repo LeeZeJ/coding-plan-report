@@ -1,0 +1,9 @@
+{
+  "name": "coding-plan-report",
+  "version": "1.0.0",
+  "private": true,
+  "description": "全球 AI Coding Plan / Token Plan 套餐研究对比报表（单文件静态 HTML）",
+  "scripts": {
+    "test": "node test/smoke.js"
+  }
+}

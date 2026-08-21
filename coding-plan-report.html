@@ -143,10 +143,16 @@
   .model-grp-label.base::before{background:var(--text-2);height:10px;}
   .model-grid{display:flex;flex-wrap:wrap;align-items:center;}
   .est{color:var(--text-2);font-size:12px;}
+  .fm-badge{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;white-space:nowrap;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-border);font-weight:600;margin-left:4px;vertical-align:1px;line-height:1.5;}
+  .fm-price{color:var(--amber);font-weight:700;}
   .note{font-size:12px;color:var(--text-2);}
   .card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);box-shadow:var(--card-shadow);padding:20px 22px;margin-bottom:18px;transition:var(--theme-transition);}
   .card h3{font-size:16px;margin-bottom:2px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--text-0);}
   .card .sub{font-size:12px;color:var(--text-2);margin-bottom:12px;}
+  .card-billing{display:inline-flex;border:1px solid var(--card-border);border-radius:999px;overflow:hidden;margin-left:auto;}
+  .card-billing button{background:none;border:none;color:var(--text-1);font-size:12px;font-weight:500;padding:3px 11px;cursor:pointer;font-family:inherit;transition:var(--theme-transition);}
+  .card-billing button:hover{color:var(--text-0);}
+  .card-billing button.active{background:var(--filter-active-bg);color:var(--filter-active-fg);font-weight:600;}
   .offlink{display:inline-flex;align-items:center;gap:3px;font-size:12px;font-weight:400;color:var(--accent-fg);background:var(--accent-soft);border:1px solid var(--accent-border);border-radius:12px;padding:2px 10px;text-decoration:none;transition:var(--theme-transition);}
   .offlink:hover{background:var(--accent);color:var(--on-accent);border-color:var(--accent);}
   .offlink::after{content:"↗";font-weight:700;}
@@ -154,6 +160,9 @@
   .plan-offlink:hover{background:var(--accent);color:var(--on-accent);border-color:var(--accent);}
   .rank-link{font-size:11px;color:var(--accent-fg);text-decoration:none;}
   .rank-link:hover{text-decoration:underline;}
+  .plan-jump{color:var(--accent-fg);text-decoration:none;font-weight:600;}
+  .plan-jump:hover{text-decoration:underline;}
+  .plan-row.hl{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;background:var(--accent-soft);}
   .plan-row{border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:10px;background:var(--row-bg);transition:var(--theme-transition);}
   .plan-row:last-child{margin-bottom:0;}
   .plan-row .pr-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:4px;}
@@ -248,7 +257,7 @@
         <div class="meta">
           <span>数据截至：2026-08-20</span>
           <span>汇率假设：1 USD ≈ 7.1 CNY</span>
-          <span>口径：月付标准价（首月优惠 / 年付折扣另行标注）</span>
+          <span>口径：月付标准价（首月优惠按「首月价」并入排名并特别标注，次月起恢复标准价；年付折扣另行标注）</span>
           <span>token 额度为估算值，方法见「换算方法」页</span>
         </div>
       </div>
@@ -259,25 +268,20 @@
 <div class="tab active" id="tab-rank">
   <div class="stat-strip" id="statStrip"></div>
   <div class="section-title"><span class="dot"></span>套餐划算程度总排名（越划算越靠前）</div>
-  <div class="toast-tip" id="rankTip">排名依据「折合单价 = 月费 ÷ 估算月度可用 tokens」，单位：元 / 百万 tokens，数值越低越划算。国内订阅套餐已计入90%缓存命中折算（cacheHitBoost=10），海外套餐按标准口径。国内 plan 普遍为海外旗舰订阅的 1/10 ~ 1/20；「按模型查询」页可查看扣除模型消耗倍率后的单模型口径单价。</div>
+  <div class="toast-tip" id="rankTip">排名依据「折合单价 = 月费 ÷ 估算月度可用 tokens」，单位：元 / 百万 tokens，数值越低越划算。<b style="color:var(--amber)">按 90% 缓存命中默认放大成交单价（统一 ×10），国内套餐并叠加官方优惠</b>（智谱 ZCode50%×包年7折×非高峰、MiniMax 包年83折、小米 MiMo 夜间0.8×包年88折、Kimi 包年8折），故国内单价普遍更低。标注 <span class="fm-badge">首月</span> 的套餐按「首月优惠价」折算计入排名（次月起恢复标准月价）。「按模型查询」页可查看扣除模型消耗倍率后的单模型口径单价。</div>
   <table id="rankTable">
     <thead><tr>
-      <th>排名</th><th>公司 / 产品</th><th>套餐</th><th>区域</th>
+      <th>排名</th><th>公司</th><th>套餐</th><th>区域</th>
       <th>月费（原币）</th><th id="thFiat">折合 ¥/月</th><th>额度（官方口径）</th>
       <th>估算 tokens/月</th><th id="thCost">折合单价<br>（元/百万tokens）</th><th>单价对比</th>
     </tr></thead>
     <tbody></tbody>
   </table>
-  <div class="legend">「单价对比」条越短越划算（对数刻度归一化）。首月优惠价 / 早鸟价不参与排名，排名采用标准月费。国内 plan 排名已计入10倍缓存命中放大（cacheHitBoost=10）。DeepSeek 为纯按量 API、无订阅套餐，故不参与排名，可在「按模型查询」页作为按量参考基准。</div>
+  <div class="legend">「单价对比」条越短越划算（对数刻度归一化）。<b>各套餐统一按 90% 缓存命中折算（×10）</b>；国内套餐再叠加官方价格优惠（智谱 ZCode50%×包年7折×非高峰、MiniMax 包年83折、MiMo 夜间0.8×包年88折、Kimi 包年8折），口径见「换算方法」页。DeepSeek 为纯按量 API、无订阅套餐，故不参与排名，可在「按模型查询」页作为按量参考基准。</div>
 </div>
 
 <!-- ============ TAB 2: 公司 ============ -->
 <div class="tab" id="tab-company">
-<div class="filters" id="billingFilter">
-    <button class="active" data-billing="monthly">月卡</button>
-    <button data-billing="quarterly">季卡</button>
-    <button data-billing="annual">年卡</button>
-  </div>
   <div id="secIntl">
     <div class="section-title"><span class="dot"></span>国外厂商</div>
     <div class="grid-2" id="intlCompanies"></div>
@@ -314,10 +318,16 @@
           <li><b>按量 API</b>（DeepSeek）：不参与订阅排名，仅在模型查询页作为按量参考基准。</li>
         </ul>
       </li>
-      <li><b>模型消耗倍率</b>：指在某套餐内调用该模型时相对基准模型的额度消耗倍数（如智谱 GLM-5.2 / GLM-5-Turbo 高峰期 14:00-18:00 按 3x 扣额度、GitHub Copilot 调用 Claude Opus 4.6 一次扣 3 次高级请求等）。模型查询页单价 = 月费 ÷（估算 tokens ÷ 倍率）。</li>
+      <li><b>模型消耗倍率</b>：指在某套餐内调用该模型时相对基准模型的额度消耗倍数（如智谱 GLM-5.2 / GLM-5-Turbo 高峰期 14:00-18:00 按 3x 扣额度、GitHub Copilot 调用 Claude Opus 4.6 一次扣 3 次高级请求等）。模型查询页单价 = 月费 × 优惠因子 ÷（估算 tokens × 缓存放大 ÷ 倍率），与排名页同一口径（缓存放大统一按 90% 命中 ×10；国内折扣按官方促销），仅额外扣除模型消耗倍率。</li>
       <li><b>估算局限</b>：订阅额度普遍存在「5 小时窗口 + 周限额」双重限制，实际可用量取决于使用强度与时段分布；本报告按中高强度利用（每天约 1.5~2 个满窗口）估算，轻度用户实际单价会偏高。估算值不代表官方承诺。</li>
-      <li><b>价格口径</b>：均采用标准月付价；连续包月 / 包季 / 包年折扣、首月优惠、早鸟价、限时活动（如智谱每日 10:00 限量发售、百炼早鸟价）单独标注，不参与排名计算。</li>
-      <li><b>国内 plan 缓存命中折算</b>：国内套餐（智谱 GLM、MiniMax、小米 MiMo 等）在实际编程场景中，Prompt Cache 命中率普遍可达90%以上（尤其重复系统提示词、文件上下文等长前缀），而缓存命中部分的 token 消耗大幅降低。本报告对国内 plan 统一采用10倍放大系数（cacheHitBoost=10）折算有效额度，将缓存命中收益计入排名计算，以更贴近实际编程使用场景下的真实单价。此口径与「程序员零一」等社区评测一致（其采用90%缓存命中+非高峰折算，得出 GLM-5.3 Pro 折合约0.119元/M、MiniMax-M3 约0.055元/M）。海外套餐因缓存机制差异较大，暂不适用此折算。</li>
+      <li><b>价格口径（排名）</b>：排名与本报告各处「折合单价」统一采用「标准月付价 × 优惠因子 ÷ (月度 tokens × 缓存放大)」；其中带 <b>首月优惠</b>（<code>firstMonth</code>，如「首月 ¥9.9」「首两月 ¥9.9」「首月免费」）的套餐，排名改按<b>首月实付价 ÷ 月度 tokens ÷ 缓存放大</b>折算并特别标注「<span class="fm-badge">首月</span>」，次月起恢复标准月付价。其余字段（标准月价、年付折扣）仍照常展示。其中：
+        <ul class="method">
+          <li><b>缓存放大</b>：统一按 <b>90% 缓存命中</b>折算计费成本（≈×10）——订阅内模型调用存在提示词缓存、且缓存命中按更低费率计费时，等价可用 tokens 放大；默认对全部订阅套餐按 90% 命中 ×10 放大。</li>
+          <li><b>优惠因子（国内折价，`disc`）</b>：在标准月价之上叠加各厂商官方促销——智谱 GLM 取「ZCode 50% × 连续包年 7 折 × 非高峰」≈0.175（GLM-5.3 Pro 折合约 0.119 元/M）；MiniMax 连续包年约 0.833；小米 MiMo 夜间 0.8× × 连续包年 88 折≈0.704；Kimi 国内连续包年约 0.8。其余无官方季/年折的套餐优惠因子=1。</li>
+          <li><b>「按公司浏览」页的月卡/季卡/年卡切换</b>：月=标准月付，季/年=官方折算月均价（有则用之，无则按原价计并显示整档总金额），仅影响该页展示，不改变排名口径。</li>
+        </ul>
+      </li>
+      <li><b>统一放大口径</b>：本报告对全部订阅套餐统一按 90% 缓存命中 ×10 放大；纯按量 API（如 DeepSeek）不参与订阅排名，仅在「按模型查询」页作按量参考基准。</li>
     </ol>
   </div>
   <div class="section-title"><span class="dot"></span>数据来源</div>
@@ -345,7 +355,7 @@ const companies = [
 {id:'anthropic', name:'Anthropic', product:'Claude · Claude Code', region:'intl', country:'美国', url:'https://www.anthropic.com/pricing',
  desc:'订阅含网页 / App / Claude Code / Cowork 共享额度池；5 小时会话限制 + 周限额双重机制。',
  plans:[
-  {name:'Claude Pro', price:20, cur:'USD', quota:'会话制：5小时窗口 + 周限额', tokensM:3.5, annual:'年付 $200（合 $17/月）', annualMonthly:120.7, quarterlyMonthly:19.0, annualMonthly:120.7,
+  {name:'Claude Pro', price:20, cur:'USD', quota:'会话制：5小时窗口 + 周限额', tokensM:3.5, annual:'年付 $200（合 $17/月）', annualMonthly:120.7, quarterlyMonthly:134.9,
    models:[{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.8',r:4},{n:'Claude Haiku 4.5',r:0.25},{n:'Claude Fable 5',r:8,tag:'Pro按量credits'}],
    note:'含 Claude Code；API 收支平衡点约 3.7M tokens/月'},
   {name:'Claude Max 5x', price:100, cur:'USD', quota:'5× Pro 用量；优先接入；500K 上下文', tokensM:17.5,
@@ -377,7 +387,7 @@ const companies = [
   {name:'Google AI Plus', price:4.99, cur:'USD', quota:'2× 免费限额；128K 上下文', tokensM:1, promo:'2026-06 由 $7.99 降价',
    models:[{n:'Gemini 3.6 Flash',r:0.3},{n:'Gemini 3.1 Pro',r:1,tag:'限额内'}],
    note:'含 400GB 存储'},
-  {name:'Google AI Pro', price:19.99, cur:'USD', quota:'4× 免费限额；1M token 上下文', tokensM:3.5, promo:'首月免费',
+  {name:'Google AI Pro', price:19.99, cur:'USD', quota:'4× 免费限额；1M token 上下文', tokensM:3.5, promo:'首月免费', firstMonth:0,
    models:[{n:'Gemini 3.1 Pro',r:1},{n:'Gemini 3.6 Flash',r:0.3},{n:'Gemini 3.5 Flash-Lite',r:0.15}],
    note:'含 5TB 存储 + YouTube Premium Lite + Antigravity / Jules'},
   {name:'Google AI Ultra 5x', price:99.99, cur:'USD', quota:'5× AI Pro 限额', tokensM:17.5, promo:'I/O 2026 档位重构',
@@ -393,7 +403,7 @@ const companies = [
   {name:'SuperGrok Lite', price:10, cur:'USD', quota:'入门限额；480p/6s 图像视频；1 个 AI Agent', tokensM:1.5,
    models:[{n:'Grok 4.3',r:0.5},{n:'Grok 4.1 Fast',r:0.15}],
    note:'2026-03-25 上线；适合轻中度用户'},
-  {name:'SuperGrok', price:30, cur:'USD', quota:'标准周用量池；128K 上下文', tokensM:5, annual:'年付 $300（合 $25/月）', annualMonthly:177.5, quarterlyMonthly:28.5, annualMonthly:177.5,
+  {name:'SuperGrok', price:30, cur:'USD', quota:'标准周用量池；128K 上下文', tokensM:5, annual:'年付 $300（合 $25/月）', annualMonthly:177.5, quarterlyMonthly:202.35,
    models:[{n:'Grok 4.5',r:1,tag:'分阶段推送'},{n:'Grok 4.3',r:0.5},{n:'Grok 4.1 Fast',r:0.15}],
    note:'含 DeepSearch / Big Brain / 无限图像；Grok 4.5 分阶段推送'},
   {name:'SuperGrok Plus', price:100, cur:'USD', quota:'高于 SuperGrok 的周用量池；高峰期优先', tokensM:16, tag:'2026 新档',
@@ -406,7 +416,7 @@ const companies = [
 {id:'cursor', name:'Cursor (Anysphere)', product:'Cursor IDE', region:'intl', country:'美国', url:'https://www.cursor.com/pricing',
  desc:'2025 年中起由按次请求改为按用量额度（credit）计费；Tab 补全无限；支持支付宝付款。',
  plans:[
-  {name:'Cursor Pro', price:20, cur:'USD', quota:'每月 $20 模型用量额度 + 无限 Tab 补全', tokensM:4, annual:'年付 $192（合 $16/月）', annualMonthly:113.6, quarterlyMonthly:19.0, annualMonthly:113.6,
+  {name:'Cursor Pro', price:20, cur:'USD', quota:'每月 $20 模型用量额度 + 无限 Tab 补全', tokensM:4, annual:'年付 $192（合 $16/月）', annualMonthly:113.6, quarterlyMonthly:134.9,
    models:[{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.6',r:2.5},{n:'GPT-5.4',r:1},{n:'Gemini 3 Pro',r:1}],
    note:'额度用尽转慢速队列；学生认证免费 1 年'},
   {name:'Cursor Pro+', price:60, cur:'USD', quota:'3× Pro 额度；1M 上下文', tokensM:12,
@@ -442,23 +452,23 @@ const companies = [
 {id:'moonshotintl', name:'Moonshot AI（国际版）', product:'Kimi 会员 · Kimi Code', region:'intl', country:'中国（海外定价）', url:'https://kimi.com/me/pricing?lang=en',
  desc:'音乐术语命名档位；会员功能共享 token 计量额度池；Kimi Code 另有独立 5 小时 / 周限额。',
  plans:[
-  {name:'Kimi Moderato', price:19, cur:'USD', quota:'Kimi Code 1×；60 Agent credits/月；2,048 Code 请求/周', tokensM:5, annual:'年付约 8 折', annualMonthly:15.2, quarterlyMonthly:18.05, annualMonthly:15.2,
+  {name:'Kimi Moderato', price:19, cur:'USD', quota:'Kimi Code 1×；60 Agent credits/月；2,048 Code 请求/周', tokensM:5, annual:'年付约 8 折', annualMonthly:107.92, quarterlyMonthly:128.16,
    models:[{n:'Kimi K3',r:1},{n:'Kimi K2.6',r:0.5},{n:'Kimi K2.7 Code',r:1}],
    note:'首个可用 K3 的档位；Agent Swarm 25 次'},
-  {name:'Kimi Allegretto', price:39, cur:'USD', quota:'Kimi Code 5×；150 Agent credits；1M 上下文', tokensM:25, annual:'年付约 8 折', annualMonthly:31.2, quarterlyMonthly:37.05, annualMonthly:31.2,
+  {name:'Kimi Allegretto', price:39, cur:'USD', quota:'Kimi Code 5×；150 Agent credits；1M 上下文', tokensM:25, annual:'年付约 8 折', annualMonthly:221.52, quarterlyMonthly:263.06,
    models:[{n:'Kimi K3',r:1},{n:'Kimi K2.6',r:0.5},{n:'Kimi K2.7 Code',r:1}],
    note:'首个含 Kimi Claw（浏览器控制）'},
-  {name:'Kimi Allegro', price:99, cur:'USD', quota:'Kimi Code 15×；360 Agent credits；4 并发', tokensM:75, annual:'年付约 8 折', annualMonthly:79.2, quarterlyMonthly:94.05, annualMonthly:79.2,
+  {name:'Kimi Allegro', price:99, cur:'USD', quota:'Kimi Code 15×；360 Agent credits；4 并发', tokensM:75, annual:'年付约 8 折', annualMonthly:562.32, quarterlyMonthly:667.76,
    models:[{n:'Kimi K3',r:1},{n:'Kimi K2.6',r:0.5},{n:'Kimi K2.7 Code',r:1}],
    note:'Agent Swarm 120 次'},
-  {name:'Kimi Vivace', price:199, cur:'USD', quota:'Kimi Code 30×；720 Agent credits；8 并发子任务', tokensM:150, annual:'年付省 $480/年', annualMonthly:40.0, quarterlyMonthly:189.05, annualMonthly:40.0,
+  {name:'Kimi Vivace', price:199, cur:'USD', quota:'Kimi Code 30×；720 Agent credits；8 并发子任务', tokensM:150, annual:'年付省 $480/年', annualMonthly:1130.32, quarterlyMonthly:1342.26,
    models:[{n:'Kimi K3',r:1},{n:'Kimi K2.6',r:0.5},{n:'Kimi K2.7 Code',r:1}],
    note:'Agent Swarm 240 次'}
  ]},
 {id:'opencode', name:'OpenCode (SST/Anomaly)', product:'OpenCode CLI · Go · Zen', region:'intl', country:'美国（开源）', url:'https://opencode.ai/pricing',
  desc:'MIT 开源终端编码 Agent（187K+ GitHub stars），CLI 本体免费、可自带 75+ 家 API Key；Go 为开源模型低价订阅，Zen 为零加价按量网关；另有 Black 包月档（$20/$100/$200）2026-03 起暂停注册。',
  plans:[
-  {name:'OpenCode Go', price:10, cur:'USD', quota:'用量上限：$12/5h · $30/周 · $60/月（按 Zen 牌价美元价值计）', tokensM:35, promo:'首月 $5',
+  {name:'OpenCode Go', price:10, cur:'USD', quota:'用量上限：$12/5h · $30/周 · $60/月（按 Zen 牌价美元价值计）', tokensM:35, promo:'首月 $5', firstMonth:5,
    models:[{n:'GLM-5.1',r:1},{n:'Kimi K2.7 Code',r:1},{n:'MiniMax-M3',r:1},{n:'DeepSeek-V4-Pro',r:1},{n:'qwen3.7-max',r:1},{n:'GLM-5',r:1},{n:'Kimi K2.6',r:0.5},{n:'qwen3.7-plus',r:0.5},{n:'DeepSeek-V4-Flash',r:0.5},{n:'MiMo-V2.5-Pro',r:0.5}],
    note:'15 个精选开源模型，托管于美国/欧盟/新加坡；仅限 OpenCode 内使用；tokens 估算：$60/月上限 ÷ 开源模型混合单价约 $1.7/M'},
   {name:'OpenCode Zen', payg:true, price:0, cur:'USD', quota:'50+ 精选模型按 token 计费，零加价（免费促销模型至 $30 输入 / $180 输出每百万 tokens）', tokensM:0,
@@ -469,13 +479,13 @@ const companies = [
 {id:'zhipu', name:'智谱 AI', product:'GLM Coding Plan · 龙虾套餐（Agent Plan）', region:'cn', country:'中国', url:'https://www.bigmodel.cn/glm-coding',
  desc:'双产品线：①GLM Coding Plan 面向 Claude Code/Cursor 等编程工具，按积分计量（每周 10,000 积分起）；②龙虾套餐 面向 OpenClaw/Hermes 等 Agent 工具，搭载专为 Agent 优化的 GLM-5-Turbo（200K 上下文），按 token 月卡计量。2026 年多次涨价，现价约为 2025 年的 1.9 倍。',
  plans:[
-  {name:'GLM Lite', price:94.4, cur:'CNY', cacheHitBoost:10, quota:'每周 10,000 积分；逐步开放最新旗舰', tokensM:10.5, annual:'连续包季 ¥118/月；连续包年 ¥94.4/月（8折）', annualMonthly:118.0, quarterlyMonthly:89.68, annualMonthly:118.0,
+  {name:'GLM Lite', price:94.4, cur:'CNY', disc:0.175, quota:'每周 10,000 积分；逐步开放最新旗舰', tokensM:10.5, annual:'连续包季 ¥118/月；连续包年 ¥94.4/月（8折）', annualMonthly:94.4, quarterlyMonthly:118.0,
    models:[{n:'GLM-5.3',r:1,tag:'新旗舰'},{n:'GLM-5.2',r:2,tag:'高峰3x'},{n:'GLM-5-Turbo',r:2,tag:'高峰3x'},{n:'GLM-4.7',r:1},{n:'GLM-4.5-Air',r:0.5}],
    note:'适合小型 Repo 轻量级迭代；1 prompt 可触发 15-20 次模型调用'},
-  {name:'GLM Pro', price:430.4, cur:'CNY', cacheHitBoost:10, quota:'6× Lite；优先体验最新旗舰', tokensM:63, annual:'连续包季 ¥538/月；连续包年 ¥430.4/月（8折）', annualMonthly:538.0, quarterlyMonthly:408.88, annualMonthly:538.0,
+  {name:'GLM Pro', price:430.4, cur:'CNY', disc:0.175, quota:'6× Lite；优先体验最新旗舰', tokensM:63, annual:'连续包季 ¥538/月；连续包年 ¥430.4/月（8折）', annualMonthly:430.4, quarterlyMonthly:538.0,
    models:[{n:'GLM-5.3',r:1,tag:'新旗舰'},{n:'GLM-5.2',r:2,tag:'高峰3x'},{n:'GLM-5-Turbo',r:2,tag:'高峰3x'},{n:'GLM-4.7',r:1},{n:'GLM-4.5-Air',r:0.5}],
    note:'中型 Repo 日常开发；覆盖多款精选 MCP 工具；更快生成速度'},
-  {name:'GLM Max', price:862.4, cur:'CNY', cacheHitBoost:10, quota:'14× Lite；高峰期专属资源优先保障', tokensM:147, annual:'连续包季 ¥1078/月；连续包年 ¥862.4/月（8折）', annualMonthly:1078.0, quarterlyMonthly:819.28, annualMonthly:1078.0,
+  {name:'GLM Max', price:862.4, cur:'CNY', disc:0.175, quota:'14× Lite；高峰期专属资源优先保障', tokensM:147, annual:'连续包季 ¥1078/月；连续包年 ¥862.4/月（8折）', annualMonthly:862.4, quarterlyMonthly:1078.0,
    models:[{n:'GLM-5.3',r:1,tag:'新旗舰'},{n:'GLM-5.2',r:2,tag:'高峰3x'},{n:'GLM-5-Turbo',r:2,tag:'高峰3x'},{n:'GLM-4.7',r:1},{n:'GLM-4.5-Air',r:0.5}],
    note:'首发接入最新旗舰；高峰期资源优先'},
   {name:'龙虾体验月卡', price:39, cur:'CNY', quota:'3,500 万 tokens/月（官方口径）；限购 5 张/月', tokensM:35, tag:'Agent Plan',
@@ -488,7 +498,7 @@ const companies = [
 {id:'aliyun', name:'阿里云', product:'百炼 Coding Plan · Token Plan 团队版', region:'cn', country:'中国', url:'https://www.aliyun.com/benefit/scene/codingplan',
  desc:'双产品线：①Coding Plan（个人版）按次请求计量，Lite 已停售，现仅剩 Pro ¥200/月，每日 09:30 限量发售；②Token Plan（团队版）坐席订阅 + Credits 抵扣，标准/高级/尊享三档坐席。需专用 sk-sp 密钥。',
  plans:[
-  {name:'Coding Plan Pro', price:200, cur:'CNY', quota:'6,000 次/5h；45,000 次/周；90,000 次/月', tokensM:52.5, promo:'新客首月 ¥39.9；续费 5 折',
+  {name:'Coding Plan Pro', price:200, cur:'CNY', quota:'6,000 次/5h；45,000 次/周；90,000 次/月', tokensM:52.5, promo:'新客首月 ¥39.9；续费 5 折', firstMonth:39.9,
    models:[{n:'qwen3.7-plus',r:1},{n:'qwen3.6-plus',r:1},{n:'Qwen3.8-Max',r:2,tag:'首览'},{n:'qwen3-coder-plus',r:0.5},{n:'GLM-5',r:2},{n:'Kimi K2.5',r:1},{n:'MiniMax-M2.5',r:1}],
    note:'个人版唯一在售档；简单任务 5-10 次调用、复杂 10-30+ 次；Lite 已于 2026-03-20 停售'},
   {name:'Token Plan 标准坐席', price:198, cur:'CNY', quota:'25,000 Credits/坐席/月', tokensM:25, tag:'团队版',
@@ -504,19 +514,19 @@ const companies = [
 {id:'volcengine', name:'火山引擎（字节跳动）', product:'方舟 Coding Plan · Agent Plan', region:'cn', country:'中国', url:'https://www.volcengine.com/product/ark',
  desc:'多模型聚合 + Auto 智能调度；唯一原生支持 Anthropic 协议（Claude Code 免代理直连）；Coding Plan 与 Agent Plan 双产品线，Agent Plan 在 Coding 基础上新增多模态（Seedance/Seedream）+ Harness（联网搜索/Embedding）。',
  plans:[
-  {name:'方舟 Coding Lite', price:40, cur:'CNY', quota:'约 1,200 次请求/5h；18,000 次/月；≈3× Claude Pro', tokensM:10.5, promo:'首月 ¥9.9',
+  {name:'方舟 Coding Lite', price:40, cur:'CNY', quota:'约 1,200 次请求/5h；18,000 次/月；≈3× Claude Pro', tokensM:10.5, promo:'首月 ¥9.9', firstMonth:9.9,
    models:[{n:'Doubao-Seed-2.0-Code',r:1},{n:'GLM-5.3',r:1},{n:'Kimi K3',r:1},{n:'DeepSeek-V4-Pro',r:1},{n:'Auto 智能调度',r:1},{n:'GLM-4.7',r:1},{n:'Kimi K2.5',r:1},{n:'DeepSeek-V3.2',r:1}],
    note:'按次请求计量（1 次提问触发多次调用，每次扣 1 次）'},
-  {name:'方舟 Coding Pro', price:200, cur:'CNY', quota:'约 6,000 次请求/5h；90,000 次/月；5× Lite', tokensM:52.5, promo:'首月 ¥49.9',
+  {name:'方舟 Coding Pro', price:200, cur:'CNY', quota:'约 6,000 次请求/5h；90,000 次/月；5× Lite', tokensM:52.5, promo:'首月 ¥49.9', firstMonth:49.9,
    models:[{n:'Doubao-Seed-2.0-Code',r:1},{n:'GLM-5.3',r:1},{n:'Kimi K3',r:1},{n:'DeepSeek-V4-Pro',r:1},{n:'Auto 智能调度',r:1},{n:'GLM-4.7',r:1},{n:'Kimi K2.5',r:1},{n:'DeepSeek-V3.2',r:1}],
    note:'更高 TPM；官方称用量达 Claude Max(5x) 的 3 倍'},
   {name:'方舟 Coding Max', price:400, cur:'CNY', quota:'约 2× Pro；季付 ¥1,200', tokensM:105,
    models:[{n:'Doubao-Seed-2.0-Code',r:1},{n:'GLM-5.3',r:1},{n:'Kimi K3',r:1},{n:'DeepSeek-V4-Pro',r:1},{n:'Auto 智能调度',r:1},{n:'GLM-4.7',r:1},{n:'Kimi K2.5',r:1},{n:'DeepSeek-V3.2',r:1}],
    note:'面向高强度企业级开发'},
-  {name:'方舟 Agent Small', price:40, cur:'CNY', quota:'20,000 AFP/月；5h+周+月三重限额；含 Seedream/Seamless Lite', tokensM:10.5, promo:'首两月 ¥9.9（2.5折）', tag:'Agent Plan',
+  {name:'方舟 Agent Small', price:40, cur:'CNY', quota:'20,000 AFP/月；5h+周+月三重限额；含 Seedream/Seamless Lite', tokensM:10.5, promo:'首两月 ¥9.9（2.5折）', firstMonth:9.9, tag:'Agent Plan',
    models:[{n:'Doubao-Seed-2.0-Code',r:1},{n:'GLM-5.3',r:1},{n:'Kimi K3',r:1},{n:'DeepSeek-V4-Pro',r:1},{n:'Auto 智能调度',r:1},{n:'Seedream 5.0 Lite',r:1,tag:'生图'},{n:'Seamless 5.0 Lite',r:1,tag:'向量化'},{n:'联网搜索 Harness',r:1,tag:'免费额度'}],
    note:'Agent 燃料值(AFP)计费；额度仅供编程/Agent 工具，禁止 API 直接调用'},
-  {name:'方舟 Agent Medium', price:200, cur:'CNY', quota:'100,000 AFP/月；5× Small；含 ArkClaw 轻量版', tokensM:52.5, promo:'首两月 ¥49.9（2.5折）', tag:'Agent Plan',
+  {name:'方舟 Agent Medium', price:200, cur:'CNY', quota:'100,000 AFP/月；5× Small；含 ArkClaw 轻量版', tokensM:52.5, promo:'首两月 ¥49.9（2.5折）', firstMonth:49.9, tag:'Agent Plan',
    models:[{n:'Doubao-Seed-2.0-Code',r:1},{n:'GLM-5.3',r:1},{n:'Kimi K3',r:1},{n:'DeepSeek-V4-Pro',r:1},{n:'Auto 智能调度',r:1},{n:'Seedream 5.0 Lite',r:1,tag:'生图'},{n:'Seamless 5.0 Lite',r:1,tag:'向量化'},{n:'联网搜索 Harness',r:1,tag:'免费额度'}],
    note:'附赠 ArkClaw 轻量版个人助手'},
   {name:'方舟 Agent Large', price:500, cur:'CNY', quota:'250,000 AFP/月；2.5× Medium', tokensM:131, tag:'Agent Plan',
@@ -529,22 +539,22 @@ const companies = [
 {id:'minimax', name:'MiniMax', product:'Token Plan（原 Coding Plan）', region:'cn', country:'中国', url:'https://platform.minimaxi.com/subscribe/token-plan',
  desc:'2026-03 将原 Coding Plan 升级为 Token Plan，全球首个全模态订阅计划：文本+语音+视频+图像+音乐统一额度体系；底层模型 M2.5→M2.7，额度暴涨 4.5-6 倍，从美元改为人民币定价。',
  plans:[
-  {name:'MiniMax Starter', cacheHitBoost:10, price:29, cur:'CNY', quota:'600 requests/5h；无每周限额', tokensM:11, annual:'年付 ¥290（¥24/月）', annualMonthly:24.0, quarterlyMonthly:27.55, annualMonthly:24.0,
+  {name:'MiniMax Starter', price:29, cur:'CNY', disc:0.833, quota:'600 requests/5h；无每周限额', tokensM:11, annual:'年付 ¥290（¥24/月）', annualMonthly:24.0, quarterlyMonthly:27.55,
    models:[{n:'MiniMax-M2.5',r:1},{n:'MiniMax-M2.7',r:1}],
    note:'支持 1 个 OpenClaw agent；图像理解 + 联网搜索 MCP'},
-  {name:'MiniMax Plus', cacheHitBoost:10, price:49, cur:'CNY', quota:'1,500 requests/5h；2.5× Starter', tokensM:27.5, annual:'年付 ¥490（¥41/月）', annualMonthly:41.0, quarterlyMonthly:46.55, annualMonthly:41.0,
+  {name:'MiniMax Plus', price:49, cur:'CNY', disc:0.833, quota:'1,500 requests/5h；2.5× Starter', tokensM:27.5, annual:'年付 ¥490（¥41/月）', annualMonthly:41.0, quarterlyMonthly:46.55,
    models:[{n:'MiniMax-M2.5',r:1},{n:'MiniMax-M2.7',r:1}],
    note:'支持 1-2 个 OpenClaw agent；含生成图像和语音额度（独立）'},
-  {name:'MiniMax Max', cacheHitBoost:10, price:119, cur:'CNY', quota:'4,500 requests/5h；7.5× Starter', tokensM:82.5, annual:'年付 ¥1,190（¥99/月）', annualMonthly:99.0, quarterlyMonthly:113.05, annualMonthly:99.0,
+  {name:'MiniMax Max', price:119, cur:'CNY', disc:0.833, quota:'4,500 requests/5h；7.5× Starter', tokensM:82.5, annual:'年付 ¥1,190（¥99/月）', annualMonthly:99.0, quarterlyMonthly:113.05,
    models:[{n:'MiniMax-M2.5',r:1},{n:'MiniMax-M2.7',r:1}],
    note:'支持 2-3 个 OpenClaw agent；含图像/语音/音乐/视频额度'},
-  {name:'MiniMax Plus-极速', cacheHitBoost:10, price:98, cur:'CNY', quota:'1,500 requests/5h；全程稳定 100 TPS', tokensM:27.5, annual:'年付 ¥980（¥82/月）', annualMonthly:82.0, quarterlyMonthly:93.1, annualMonthly:82.0,
+  {name:'MiniMax Plus-极速', price:98, cur:'CNY', disc:0.833, quota:'1,500 requests/5h；全程稳定 100 TPS', tokensM:27.5, annual:'年付 ¥980（¥82/月）', annualMonthly:82.0, quarterlyMonthly:93.1,
    models:[{n:'MiniMax-M2.5-highspeed',r:1,tag:'约100TPS'},{n:'MiniMax-M2.7-highspeed',r:1,tag:'约100TPS'}],
    note:'极速版模型推理速度 ~100 TPS（标准版约 50 TPS）'},
-  {name:'MiniMax Max-极速', cacheHitBoost:10, price:199, cur:'CNY', quota:'4,500 requests/5h；极速响应', tokensM:82.5, annual:'年付 ¥1,990（¥166/月）', annualMonthly:166.0, quarterlyMonthly:189.05, annualMonthly:166.0,
+  {name:'MiniMax Max-极速', price:199, cur:'CNY', disc:0.833, quota:'4,500 requests/5h；极速响应', tokensM:82.5, annual:'年付 ¥1,990（¥166/月）', annualMonthly:166.0, quarterlyMonthly:189.05,
    models:[{n:'MiniMax-M2.5-highspeed',r:1,tag:'约100TPS'},{n:'MiniMax-M2.7-highspeed',r:1,tag:'约100TPS'}],
    note:'极速 + 大用量'},
-  {name:'MiniMax Ultra-极速', cacheHitBoost:10, price:899, cur:'CNY', quota:'30,000 requests/5h；年付 ¥8,990', tokensM:549,
+  {name:'MiniMax Ultra-极速', price:899, cur:'CNY', quota:'30,000 requests/5h；年付 ¥8,990', tokensM:549,
    models:[{n:'MiniMax-M2.5-highspeed',r:1,tag:'约100TPS'},{n:'MiniMax-M2.7-highspeed',r:1,tag:'约100TPS'}],
    note:'面向团队/企业；国内单档最贵订阅之一'}
  ]},
@@ -589,10 +599,10 @@ const companies = [
 {id:'moonshotcn', name:'月之暗面（国内版）', product:'Kimi Coding Plan', region:'cn', country:'中国', url:'https://kimi.com/me/pricing',
  desc:'国内唯一按 token 直接计量、无 5 小时窗口限制的 Coding Plan，适合长时间连续编程；1 prompt 可触发多次模型调用。',
  plans:[
-  {name:'Kimi Coding 入门', price:49, cur:'CNY', quota:'500 万 tokens/月（官方口径）；无 5h 窗口', tokensM:5, promo:'首月每周 ¥4.99',
+  {name:'Kimi Coding 入门', price:49, cur:'CNY', quota:'500 万 tokens/月（官方口径）；无 5h 窗口', tokensM:5, promo:'首月每周 ¥4.99', firstMonth:4.99,
    models:[{n:'Kimi K2.5',r:1},{n:'Kimi K2.7 Code',r:1}],
    note:'额度用完即停，当月不再恢复'},
-  {name:'Kimi Coding 中档', price:99, cur:'CNY', quota:'2,000 万 tokens/月（官方口径）', tokensM:20, annual:'连续包年 ¥79/月', annualMonthly:79.0, quarterlyMonthly:94.05, annualMonthly:79.0,
+  {name:'Kimi Coding 中档', price:99, cur:'CNY', disc:0.8, quota:'2,000 万 tokens/月（官方口径）', tokensM:20, annual:'连续包年 ¥79/月', annualMonthly:79.0, quarterlyMonthly:94.05,
    models:[{n:'Kimi K2.5',r:1},{n:'Kimi K2.7 Code',r:1}],
    note:'4× 入门档'},
   {name:'Kimi Coding 高档', price:199, cur:'CNY', quota:'约 5,000 万 tokens/月（估算）', tokensM:50,
@@ -602,45 +612,94 @@ const companies = [
 {id:'mimo', name:'小米 MiMo', product:'Token Plan（MiMo-V2.5）', region:'cn', country:'中国', url:'https://mimo.mi.com/docs/zh-CN/price/token-plan',
  desc:'Token Plan 面向 AI 编程场景，覆盖 mimo-v2.5-pro、mimo-v2.5 共6款模型（TTS限时免费）；Credit 计费体系，夜间（0:00-8:00）消耗0.8倍；首购88折；连续包年88折。另有按量计费 API，与套餐不互通。',
  plans:[
-  {name:'MiMo Lite', price:39, cur:'CNY', quota:'4.1B Credits/月（约 200 轮 V2.5 中等任务）', tokensM:15, annual:'年付 ¥34.32/月（88折）', annualMonthly:34.32, quarterlyMonthly:37.05,
+  {name:'MiMo Lite', price:39, cur:'CNY', disc:0.704, quota:'4.1B Credits/月（约 200 轮 V2.5 中等任务）', tokensM:15, annual:'年付 ¥34.32/月（88折）', annualMonthly:34.32, quarterlyMonthly:37.05,
    models:[{n:'MiMo-V2.5-Pro',r:6,tag:'输出600C'},{n:'MiMo-V2.5',r:2,tag:'输出200C'}],
    note:'Credits 按模型并行消耗，非独立消耗；夜间0.8倍'},
-  {name:'MiMo Standard', price:99, cur:'CNY', quota:'11B Credits/月（约 1,600 轮）', tokensM:40, annual:'年付 ¥87.12/月（88折）', annualMonthly:87.12, quarterlyMonthly:94.05,
+  {name:'MiMo Standard', price:99, cur:'CNY', disc:0.704, quota:'11B Credits/月（约 1,600 轮）', tokensM:40, annual:'年付 ¥87.12/月（88折）', annualMonthly:87.12, quarterlyMonthly:94.05,
    models:[{n:'MiMo-V2.5-Pro',r:6},{n:'MiMo-V2.5',r:2}],
    note:'适合经常使用 AI 的办公达人'},
-  {name:'MiMo Pro', price:329, cur:'CNY', quota:'38B Credits/月（约 5,600 轮）', tokensM:140, annual:'年付 ¥289.52/月（88折）', annualMonthly:289.52, quarterlyMonthly:312.55,
+  {name:'MiMo Pro', price:329, cur:'CNY', disc:0.704, quota:'38B Credits/月（约 5,600 轮）', tokensM:140, annual:'年付 ¥289.52/月（88折）', annualMonthly:289.52, quarterlyMonthly:312.55,
    models:[{n:'MiMo-V2.5-Pro',r:6},{n:'MiMo-V2.5',r:2}],
    note:'适合每天高频使用的开发者'},
-  {name:'MiMo Max', price:659, cur:'CNY', quota:'82B Credits/月（约 12,800 轮）', tokensM:300, annual:'年付 ¥579.92/月（88折）', annualMonthly:579.92, quarterlyMonthly:626.05,
+  {name:'MiMo Max', price:659, cur:'CNY', disc:0.704, quota:'82B Credits/月（约 12,800 轮）', tokensM:300, annual:'年付 ¥579.92/月（88折）', annualMonthly:579.92, quarterlyMonthly:626.05,
    models:[{n:'MiMo-V2.5-Pro',r:6},{n:'MiMo-V2.5',r:2}],
    note:'重度用户；全站最高档'}
  ]},
 ];
 
-/* API 按量参考价（每百万 tokens：输入/输出；blend 按 输入:输出=3:1 混合） */
+/* API 按量参考价（每百万 tokens：输入/输出；blend 按 输入:输出=3:1 混合）
+   2026-08-20 补全：覆盖全部有公开 API 按量价的模型（官方牌价；订阅专属/工具类无牌价者不列）。
+   价格口径：USD = 各厂国际站牌价；CNY = 国内站牌价（阿里/智谱/火山/腾讯等国内站） */
 const apiRefs = [
- {n:'Claude Haiku 4.5',   i:0.8,  o:4,    cur:'USD'},
+ /* Anthropic（官方 2026-08） */
+ {n:'Claude Haiku 4.5',   i:1,    o:5,    cur:'USD'},
  {n:'Claude Sonnet 4.6',  i:3,    o:15,   cur:'USD'},
- {n:'Claude Opus 4.8',    i:15,   o:75,   cur:'USD', tag:'按 Opus 4.7 牌价'},
+ {n:'Claude Opus 4.6',    i:5,    o:25,   cur:'USD'},
+ {n:'Claude Opus 4.8',    i:5,    o:25,   cur:'USD'},
+ {n:'Claude Fable 5',     i:10,   o:50,   cur:'USD', tag:'Mythos 级旗舰'},
+ /* OpenAI（官方 2026-08，7-30 调价后） */
  {n:'GPT-5.6 Sol',        i:5,    o:30,   cur:'USD'},
+ {n:'GPT-5.6 Terra',      i:2,    o:12,   cur:'USD'},
+ {n:'GPT-5.6 Luna',       i:0.2,  o:1.2,  cur:'USD'},
+ {n:'GPT-5.6 Sol Pro',    i:10,   o:60,   cur:'USD', tag:'订阅专属·参考估算'},
+ {n:'GPT-5.5',            i:5,    o:30,   cur:'USD'},
+ {n:'GPT-5.4',            i:2.5,  o:15,   cur:'USD'},
+ {n:'GPT-5',              i:1.25, o:10,   cur:'USD', tag:'参考'},
+ {n:'GPT-5.3-Codex',      i:1.5,  o:9,    cur:'USD', tag:'参考'},
+ {n:'GPT-5.3-Codex-Spark',i:1,    o:5,    cur:'USD', tag:'研究预览·参考'},
+ {n:'o3',                 i:2,    o:8,    cur:'USD', tag:'推理模型·参考'},
+ /* Google（官方 2026-07/08） */
  {n:'Gemini 3.1 Pro',     i:2,    o:12,   cur:'USD'},
+ {n:'Gemini 3 Pro',       i:2,    o:12,   cur:'USD'},
+ {n:'Gemini 2.5 Pro',     i:1.25, o:10,   cur:'USD', tag:'2026-10 退役'},
  {n:'Gemini 3.6 Flash',   i:1.5,  o:7.5,  cur:'USD'},
+ {n:'Gemini 3.5 Flash-Lite', i:0.3, o:2.5, cur:'USD'},
+ {n:'Gemini Deep Think',  i:4,    o:24,   cur:'USD', tag:'Ultra专属·无API牌价·参考'},
+ /* xAI（官方 2026-08） */
  {n:'Grok 4.5',           i:2,    o:6,    cur:'USD'},
  {n:'Grok 4.3',           i:1.25, o:2.5,  cur:'USD'},
- {n:'Kimi K3',            i:3,    o:15,   cur:'USD'},
+ {n:'Grok 4.1 Fast',      i:0.2,  o:0.5,  cur:'USD'},
+ {n:'Grok 4 Heavy',       i:4,    o:12,   cur:'USD', tag:'订阅专属·无API牌价·参考'},
+ /* Moonshot Kimi（国际站牌价；国内站 K2.7 Code ¥6.5/¥27） */
+ {n:'Kimi K3',            i:20,   o:100,  cur:'CNY', tag:'缓存命中 ¥2'},
  {n:'Kimi K2.6',          i:0.95, o:4,    cur:'USD'},
+ {n:'Kimi K2.7 Code',     i:0.95, o:4,    cur:'USD', tag:'国内站 ¥6.5/¥27'},
+ {n:'Kimi K2.5',          i:0.6,  o:3,    cur:'USD'},
+ /* DeepSeek（官方 2026-08，闲时价，高峰翻倍） */
  {n:'DeepSeek-V4-Pro',    i:4.5,  o:13.5, cur:'CNY', tag:'闲时；高峰翻倍'},
  {n:'DeepSeek-V4-Flash',  i:1.5,  o:4.5,  cur:'CNY', tag:'闲时；高峰翻倍'},
- {n:'ERNIE 5.1',          i:4,    o:18,   cur:'CNY'},
- {n:'ERNIE 4.5-Turbo',    i:0.8,  o:0.16, cur:'CNY', tag:'32K版·输出极低'},
- {n:'M2.7',               i:2.1,  o:8.4,  cur:'CNY'},
- {n:'M2.7-highspeed',     i:4.2,  o:16.8, cur:'CNY'},
- {n:'GLM-5.3',            i:4,    o:18,   cur:'CNY'},
- {n:'GLM-5.2',            i:2,    o:8,    cur:'CNY'},
- {n:'MiMo-V2.5-Pro',   i:3,    o:6,    cur:'CNY', tag:'未命中缓存'},
- {n:'MiMo-V2.5-Pro-cache', i:0.025, o:6,   cur:'CNY', tag:'命中缓存'},
- {n:'MiMo-V2.5',        i:1,    o:2,    cur:'CNY', tag:'未命中缓存'},
- {n:'GLM-5-Turbo',        i:0.5,  o:2,    cur:'CNY', tag:'Agent优化'}
+ {n:'DeepSeek-V3.2',      i:2,    o:3,    cur:'CNY', tag:'≈$0.28/$0.42'},
+ /* 百度千帆（官方 2026-06-25） */
+ {n:'ERNIE 5.1',          i:4,    o:18,   cur:'CNY', tag:'≤32K'},
+ {n:'ERNIE 5.0',          i:6,    o:24,   cur:'CNY', tag:'≤32K；更长 ¥10/¥40'},
+ {n:'ERNIE 4.5-Turbo',    i:0.8,  o:3.2,  cur:'CNY', tag:'32K版'},
+ /* MiniMax（官方按量计费页，2026） */
+ {n:'MiniMax-M3',         i:2.1,  o:8.4,  cur:'CNY', tag:'≤512k 五折后'},
+ {n:'MiniMax-M2.7',       i:2.1,  o:8.4,  cur:'CNY', tag:'≤200k'},
+ {n:'MiniMax-M2.7-highspeed', i:4.2, o:16.8, cur:'CNY', tag:'≤200k'},
+ {n:'MiniMax-M2.5',       i:2.1,  o:8.4,  cur:'CNY', tag:'历史模型'},
+ {n:'MiniMax-M2.5-highspeed', i:4.2, o:16.8, cur:'CNY', tag:'历史模型'},
+ /* 智谱（官方 2026-08-09 快照） */
+ {n:'GLM-5.3',            i:8,    o:28,   cur:'CNY', tag:'旗舰'},
+ {n:'GLM-5.2',            i:8,    o:28,   cur:'CNY', tag:'≤1M'},
+ {n:'GLM-5.1',            i:6,    o:24,   cur:'CNY', tag:'≤32K'},
+ {n:'GLM-5-Turbo',        i:5,    o:22,   cur:'CNY', tag:'≤32K；Agent优化'},
+ {n:'GLM-5',              i:4,    o:18,   cur:'CNY', tag:'≤32K'},
+ {n:'GLM-4.7',            i:2,    o:8,    cur:'CNY', tag:'参考'},
+ {n:'GLM-4.5-Air',        i:0.8,  o:4,    cur:'CNY', tag:'参考'},
+ /* 阿里云百炼（国内站价；国际价约为 $1/6 折） */
+ {n:'Qwen3.8-Max',        i:12,   o:36,   cur:'CNY', tag:'国内站；国际 $2/$6'},
+ {n:'qwen3.7-max',        i:8,    o:24,   cur:'CNY', tag:'国际 $1.25/$3.75'},
+ {n:'qwen3.7-plus',       i:2,    o:8,    cur:'CNY', tag:'≤256K'},
+ {n:'qwen3.6-plus',       i:2,    o:12,   cur:'CNY', tag:'≤256K·参考'},
+ {n:'qwen3-coder-plus',   i:6,    o:30,   cur:'CNY', tag:'≤32K·参考'},
+ /* 字节 / 腾讯（官方 2026） */
+ {n:'Doubao-Seed-2.0-Code', i:3.2, o:16,  cur:'CNY', tag:'≤32K；更长分级加价'},
+ {n:'混元 HY',            i:1,    o:4,    cur:'CNY', tag:'Hy3；缓存 ¥0.25'},
+ /* 小米 MiMo（官方 API 文档，未命中缓存价） */
+ {n:'MiMo-V2.5-Pro',      i:3,    o:6,    cur:'CNY', tag:'未命中缓存'},
+ {n:'MiMo-V2.5-Pro-cache', i:0.025, o:6,  cur:'CNY', tag:'命中缓存'},
+ {n:'MiMo-V2.5',          i:1,    o:2,    cur:'CNY', tag:'未命中缓存'}
 ];
 
 /* ==================== 工具函数 ==================== */
@@ -651,8 +710,23 @@ function dispCost(cnyVal){ return cnyVal.toFixed(2); }
 function costUnit(){ return '元/百万tokens'; }
 function fmtTokens(m){ return m>=100 ? Math.round(m) + 'M' : m.toFixed(1) + 'M'; }
 function planPriceCNY(p){ return p.cur==='USD' ? p.price*FX : p.price; }
-function effTokensM(p){ return p.tokensM * (p.cacheHitBoost || 1); }
-function planCost(p){ return planPriceCNY(p)/effTokensM(p); }
+/* 缓存命中放大系数 cacheHitBoost：用户口径——凡能缓存命中的套餐，默认按 90% 缓存命中折算（≈×10）。
+   订阅内模型调用存在提示词缓存、且缓存命中按更低成本计费时，等价的可用 tokens 放大；
+   本报告默认对全部订阅套餐按 90% 命中 ×10 放大（个别官方给出精确系数的套餐可通过 cacheHitBoost 显式覆盖）。 */
+const CACHE_BOOST_DEFAULT = 10;
+function cacheBoost(p){ return p.cacheHitBoost || CACHE_BOOST_DEFAULT; }
+function effTokensM(p){ return p.tokensM * cacheBoost(p); }
+/* 价格优惠因子 disc：标准月价之外的额外折扣（包年 / ZCode / 夜间 / 极限优惠码），0~1，默认无（1）。
+   与显式缓存放大一起计入排名折合单价；国内厂商按官方促销叠加，口径见「换算方法」页。 */
+function planDiscCNY(p){ return planPriceCNY(p) * (p.disc || 1); }
+function planCost(p){ return planDiscCNY(p)/effTokensM(p); }
+/* 首月优惠套餐 firstMonth：如「首月 ¥9.9」「首两月 ¥9.9」「首月免费(0)」。
+   排名「划算程度」按首月优惠价折算计入并特别标注（次月起恢复标准价）；
+   标准月价/年付折扣仍以原字段展示。firstMonth 为该档首月实付金额（原币），无则默认标准月价。 */
+function isFirstMonth(p){ return p.firstMonth !== undefined; }
+function toCNY(v, cur){ return cur==='USD' ? v*FX : v; }
+function rankPriceCNY(p){ return p.firstMonth !== undefined ? toCNY(p.firstMonth, p.cur) : planDiscCNY(p); }
+function rankCost(p){ return rankPriceCNY(p)/effTokensM(p); }
 function blend(r){ const b=(r.i*3+r.o)/4; return r.cur==='USD' ? b*FX : b; }
 
 const allPlans = [];
@@ -682,12 +756,12 @@ function renderStats(){
   const minCN = Math.min(...cn.map(planCost));
   const minIntl = Math.min(...intl.map(planCost));
   const maxIntl = Math.max(...intl.map(planCost));
-  const cheapest = allPlans.slice().sort((a,b)=>planCost(a)-planCost(b))[0];
+  const cheapest = allPlans.slice().sort((a,b)=>rankCost(a)-rankCost(b))[0];
   const stats = [
     {num:companies.length + ' 家', lbl:'覆盖厂商（'+companies.filter(c=>c.region==='intl').length+' 海外 + '+companies.filter(c=>c.region==='cn').length+' 国内）'},
     {num:allPlans.length + ' 档', lbl:'付费订阅套餐'},
-    {num:dispMoney(minCN), lbl:'国内最低折合单价（'+costUnit()+'）'},
-    {num:dispMoney(minIntl), lbl:'海外最低折合单价（'+costUnit()+'）'},
+    {num:'¥'+dispCost(minCN), lbl:'国内最低折合单价（'+costUnit()+'）'},
+    {num:'¥'+dispCost(minIntl), lbl:'海外最低折合单价（'+costUnit()+'）'},
     {num:(maxIntl/minCN).toFixed(0) + ' 倍', lbl:'海外最贵 vs 国内最便宜差价'},
     {num:cheapest.company.name.split('（')[0] + ' ' + cheapest.name, lbl:'综合最划算（估算口径）'}
   ];
@@ -697,24 +771,34 @@ function renderStats(){
 
 function renderRank(region){
   const list = allPlans.filter(p=>!region || p.region===region)
-    .sort((a,b)=>planCost(a)-planCost(b));
-  const maxC = Math.max(...list.map(planCost));
-  const minC = Math.min(...list.map(planCost));
+    .sort((a,b)=>rankCost(a)-rankCost(b));
+  const maxC = Math.max(...list.map(rankCost));
+  const minC = Math.min(...list.map(rankCost));
   function barW(c){
-    const t = (Math.log(c)-Math.log(minC))/(Math.log(maxC)-Math.log(minC)||1);
+    const lo = Math.max(minC, 1e-4), hi = Math.max(maxC, lo*1.1), cc = Math.max(c, 1e-4);
+    const t = (Math.log(cc)-Math.log(lo))/(Math.log(hi)-Math.log(lo)||1);
     return Math.max(6, Math.round(t*100));
   }
   document.querySelector('#rankTable tbody').innerHTML = list.map((p,i)=>{
-    const c = planCost(p);
+    const c = rankCost(p);
+    const fm = isFirstMonth(p);
     const badge = i<3 ? '<span class="rank-badge r'+(i+1)+'">'+(i+1)+'</span>' : '<span class="rank-badge">'+(i+1)+'</span>';
-    const priceStr = (p.cur==='USD'?'$':'¥') + p.price + (p.promo?'<br><small>'+p.promo+'</small>':'') + (p.annual?'<br><small>'+p.annual+'</small>':'');
+    const stdStr = (p.cur==='USD'?'$':'¥') + p.price + '/月';
+    let priceStr;
+    if(fm){
+      priceStr = (p.firstMonth===0 ? '<span class="fm-price">首月免费</span>' : '<span class="fm-price">'+((p.cur==='USD'?'$':'¥')+p.firstMonth)+'</span>')
+        + (p.promo && p.firstMonth!==0 ? '<br><small>'+p.promo+'</small>' : '')
+        + '<br><small class="est">次月起 '+stdStr+'</small>';
+    }else{
+      priceStr = (p.cur==='USD'?'$':'¥') + p.price + (p.promo?'<br><small>'+p.promo+'</small>':'') + (p.annual?'<br><small>'+p.annual+'</small>':'');
+    }
     return '<tr>'
       +'<td>'+badge+'</td>'
-      +'<td class="company-cell">'+(p.company.url?'<a class="rank-link" href="'+p.company.url+'" target="_blank" rel="noopener">'+p.company.name+'</a>':'<span>'+p.company.name+'</span>')+'<small>'+p.company.product+'</small></td>'
-      +'<td class="plan-name">'+p.name+(p.tag?'<br><small class="est">'+p.tag+'</small>':'')+'</td>'
+      +'<td class="company-cell">'+(p.company.url?'<a class="rank-link" href="'+p.company.url+'" target="_blank" rel="noopener">'+p.company.name+'</a>':'<span>'+p.company.name+'</span>')+'</td>'
+      +'<td class="plan-name"><a href="#" class="plan-jump" data-cid="'+p.company.id+'" data-name="'+p.name+'">'+p.name+'</a>'+(fm?' <span class="fm-badge" title="首月/首期优惠价，次月起恢复标准价">首月</span>':'')+(p.tag?'<br><small class="est">'+p.tag+'</small>':'')+'</td>'
       +'<td><span class="region-tag '+p.region+'">'+(p.region==='cn'?'国内':'国外')+'</span></td>'
       +'<td class="price">'+priceStr+'</td>'
-      +'<td>'+dispMoney(planPriceCNY(p))+'</td>'
+      +'<td>'+dispMoney(rankPriceCNY(p))+'</td>'
       +'<td class="est" style="max-width:260px;">'+p.quota+'</td>'
       +'<td class="est">'+fmtTokens(p.tokensM)+'</td>'
       +'<td class="cost'+(c<CHEAP_THRESHOLD?' cheap':'')+'">'+dispCost(c)+'</td>'
@@ -743,9 +827,40 @@ document.querySelectorAll('#sidebarRegion .side-filter').forEach(btn=>{
 });
 
 /* ==================== TAB 2: 公司 ==================== */
-let billingMode = 'monthly';
+const billingByCompany = {};
+/* 依据公司内切换 mode（月卡/季卡/年卡）计算该套餐在本档位的展示计价：
+   - 月卡 = 标准月付价；
+   - 季卡/年卡 = 若有官方折算月均价（annualMonthly / quarterlyMonthly，统一人民币口径）且低于月付价则用之，
+     否则视为"该档暂无折扣"，回退按月付价 × 期数计（仅显示整档总金额）。
+   返回每期月均 vmu 与整档总金额 total（季=3 个月 / 年=12 个月），保证切换任何档位都能正确联动显示。 */
+function billingModeVal(p, mode){
+  const base = planPriceCNY(p);
+  let vmu = base, periods = 1, hasDisc = false;
+  if(mode==='quarterly'){ periods = 3;
+    if(p.quarterlyMonthly>0 && p.quarterlyMonthly<base){ vmu = p.quarterlyMonthly; hasDisc = true; } }
+  else if(mode==='annual'){ periods = 12;
+    if(p.annualMonthly>0 && p.annualMonthly<base){ vmu = p.annualMonthly; hasDisc = true; } }
+  return { base, vmu, periods, hasDisc, total:vmu*periods, isUsd:(p.cur==='USD'), price:p.price, name:p.name };
+}
+/* 价格展示：换算回原币（USD 计划 ÷FX 回到 $，CNY 计划直接显示 ¥）；
+   显示每期月均，并在季/年档额外显示整档总金额；有折扣时划线标注原月付价。 */
+function dispEff(p, bm){
+  const sym = bm.isUsd?'$':'¥';
+  function fmt(v){ return bm.isUsd ? v/FX : v; }
+  const per = fmt(bm.vmu);
+  const tot = fmt(bm.total);
+  let s = sym + (p.price<10 ? per.toFixed(2) : (per>=100 ? Math.round(per) : per.toFixed(1))) + '/月';
+  if(bm.periods>1){
+    s += ' · <b>'+bm.periods+'个月共 '+sym+(tot>=100?Math.round(tot):tot.toFixed(1))+'</b>';
+    if(bm.hasDisc) s += ' <small class="est" style="text-decoration:line-through;">原'+(bm.isUsd?'$':'¥')+p.price+'</small>';
+    else s += ' <small class="est">（暂无独立折扣）</small>';
+  }
+  return s;
+}
 function renderCompany(c){
+  const mode = billingByCompany[c.id] || 'monthly';
   const rows = c.plans.map(p=>{
+    const bm = billingModeVal(p, mode);
     const strong = p.models.filter(isStrong);
     const base   = p.models.filter(m=>!isStrong(m));
     function chip(m, cls){
@@ -762,19 +877,20 @@ function renderCompany(c){
       grid += '<div class="model-grp-label base">其他可用模型</div>'
             + '<div class="model-grid">'+ base.map(m=>chip(m,'')).join('') +'</div>';
     }
-    return '<div class="plan-row">'
+    return '<div class="plan-row" data-pname="'+p.name+'">'
       +'<div class="pr-head"><span class="pr-name">'+p.name+(p.tag?' <small class="est">'+p.tag+'</small>':'')+'</span>'
-      +'<span class="pr-price">'+(billingMode==='annual' && p.annualMonthly ? (p.cur==='USD'?'$':'¥')+((p.annualMonthly/FX).toFixed(p.price<10?2:0))+'/月'+' <small>≈'+dispMoney(p.annualMonthly)+'</small>'+'<small class="est" style="margin-left:4px;text-decoration:line-through;">原'+(p.cur==='USD'?'$':'¥')+p.price+'</small>' : billingMode==='quarterly' && p.quarterlyMonthly ? (p.cur==='USD'?'$':'¥')+((p.quarterlyMonthly/FX).toFixed(p.price<10?2:0))+'/月'+' <small>≈'+dispMoney(p.quarterlyMonthly)+'</small>'+'<small class="est" style="margin-left:4px;text-decoration:line-through;">原'+(p.cur==='USD'?'$':'¥')+p.price+'</small>' : (p.cur==='USD'?'$':'¥')+p.price+(p.payg?'':'/月')+' <small>≈'+dispMoney(planPriceCNY(p))+'</small>')+(c.url?' <a class="plan-offlink" href="'+c.url+'" target="_blank" rel="noopener" style="margin-left:8px;">订阅 ↗</a>':'')+'</span></div>'
-      +(c.url?' <a class="plan-offlink" href="'+c.url+'" target="_blank" rel="noopener" style="margin-left:8px;">订阅 ↗</a>':'')+'</span></div>'
+      +'<span class="pr-price">'+dispEff(p,bm)+(c.url?' <a class="plan-offlink" href="'+c.url+'" target="_blank" rel="noopener" style="margin-left:8px;">订阅 ↗</a>':'')+'</span></div>'
       +'<div class="pr-meta">额度：<b>'+p.quota+'</b>'
       +(p.promo?' · <span style="color:var(--warn)">'+p.promo+'</span>':'')
       +(p.annual?' · '+p.annual:'')
-      +((p.tokensM>0) ? ' · 估算 <b>'+fmtTokens(effTokensM(p))+'</b> tokens/月 · 折合 <b>'+dispCost(planCost(billingMode==='annual' && p.annualMonthly ? Object.assign({},p,{price:p.annualMonthly,cur:'CNY'}) : billingMode==='quarterly' && p.quarterlyMonthly ? Object.assign({},p,{price:p.quarterlyMonthly,cur:'CNY'}) : p))+'</b> '+costUnit() : '')+'</div>'
+      +((p.tokensM>0) ? ' · 估算 <b>'+fmtTokens(effTokensM(p))+'</b> tokens/月（含缓存折算） · 折合 <b>'+dispCost(planCost(p))+'</b> '+costUnit() : '')+'</div>'
       + grid
       +(p.note?'<div class="note" style="margin-top:4px;">'+p.note+'</div>':'')
       +'</div>';
   }).join('');
-  return '<div class="card"><h3>'+c.name+(c.url?' <a class="offlink" href="'+c.url+'" target="_blank" rel="noopener">官网</a>':'')+'</h3><div class="sub">'+c.product+' · '+c.country+' · '+c.plans.length+' 档</div>'
+  return '<div class="card" id="card-'+c.id+'"><h3>'+c.name+(c.url?' <a class="offlink" href="'+c.url+'" target="_blank" rel="noopener">官网</a>':'')
+    +'<span class="card-billing">'+[['monthly','月卡'],['quarterly','季卡'],['annual','年卡']].map(bm=>'<button type="button" class="'+(mode===bm[0]?'active':'')+'" data-bc="'+c.id+'" data-b="'+bm[0]+'">'+bm[1]+'</button>').join('')+'</span></h3>'
+    +'<div class="sub">'+c.product+' · '+c.country+' · '+c.plans.length+' 档</div>'
     +'<div style="font-size:12px;color:var(--muted);margin-bottom:12px;">'+c.desc+'</div>'+rows+'</div>';
 }
 /* 强模型集合：名称命中或消耗倍率≥1.5 视为"强模型"，在套餐卡片中前置展示 */
@@ -797,14 +913,7 @@ function renderCompaniesAll(){
 }
 renderCompaniesAll();
 
-/* 月卡/季卡/年卡切换 */
-document.getElementById('billingFilter').addEventListener('click', e=>{
-  const btn = e.target.closest('button[data-billing]');
-  if(!btn) return;
-  billingMode = btn.dataset.billing;
-  document.querySelectorAll('#billingFilter button').forEach(b=> b.classList.toggle('active', b.dataset.billing===billingMode));
-  renderCompaniesAll();
-});
+/* 卡片内月/季/年切换：由下方两个公司容器的统一事件委托处理（每家公司独立，只重渲染该公司卡片） */
 
 /* ==================== TAB 3: 模型 ==================== */
 const modelMap = {};
@@ -849,8 +958,8 @@ function showModel(name, noScroll){
   if(active) active.classList.add('active');
   const entries = modelMap[name] || [];
   const rows = entries.map(e=>{
-    const eff = e.m.r>0 ? e.plan.tokensM/e.m.r : Infinity; // r=0 视为不占额度(免费模型)
-    const cost = e.m.r>0 ? planPriceCNY(e.plan)/eff : 0;
+    const eff = e.m.r>0 ? effTokensM(e.plan)/e.m.r : Infinity; // r=0 视为不占额度(免费模型)；含显式缓存放大(智谱GLM/MiMo)，与排名口径一致
+    const cost = e.m.r>0 ? planDiscCNY(e.plan)/eff : 0;        // 含缓存放大(默认90%×10)与价格优惠因子 disc
     return {company:e.plan.company.name, product:e.plan.company.product, url:e.plan.company.url, region:e.plan.region,
             plan:e.plan, rate:e.m.r, tag:e.m.tag||'', eff:eff, cost:cost};
   }).filter(r=>r.rate>0).sort((a,b)=>a.cost-b.cost);
@@ -867,7 +976,7 @@ function showModel(name, noScroll){
       +(refCost? '，比 API 按量（约 '+dispCost(refCost)+' '+costUnit()+'）便宜约 '+Math.max(1,Math.round(refCost/best.cost))+' 倍':'')+'。</div>';
   }
   html += '<table><thead><tr><th>#</th><th>公司</th><th>套餐</th><th>区域</th><th>月费</th>'
-    +'<th>该模型消耗倍率</th><th>该模型可用 tokens/月</th><th>折合单价（'+costUnit()+'）</th></tr></thead><tbody>';
+    +'<th>该模型消耗倍率</th><th>该模型有效 tokens/月（含缓存折算）</th><th>折合单价（'+costUnit()+'）</th></tr></thead><tbody>';
   rows.forEach((r,i)=>{
     html += '<tr'+(i===0?' style="background:var(--good-soft)"':'')+'>'
       +'<td>'+(i===0?'<span class="rank-badge r1">1</span>':'<span class="rank-badge">'+(i+1)+'</span>')+'</td>'
@@ -880,8 +989,11 @@ function showModel(name, noScroll){
       +'<td class="est">'+fmtTokens(r.eff)+'</td>'
       +'<td class="cost'+(i===0?' cheap':'')+'">'+dispCost(r.cost)+'</td></tr>';
   });
+  if(rows.length===0){
+    html += '<tr><td colspan="8" style="text-align:center;color:var(--text-2);padding:16px;">暂无订阅套餐覆盖该模型'+(ref?'；仅可按 API 按量使用':'')+'，无法参与订阅排名。</td></tr>';
+  }
   if(ref){
-    html += '<tr style="background:var(--ref-bg)"><td>—</td><td class="company-cell">API 按量<small>'+(ref.cur==='USD'?'官方牌价':'DeepSeek 官方')+'</small></td>'
+    html += '<tr style="background:var(--ref-bg)"><td>—</td><td class="company-cell">API 按量<small>官方牌价</small></td>'
       +'<td class="plan-name">按 token 计费</td><td><span class="region-tag '+(ref.cur==='CNY'?'cn':'intl')+'">'+(ref.cur==='CNY'?'国内':'国外')+'</span></td>'
       +'<td class="price">按量</td><td class="est">—</td><td class="est">无上限</td>'
       +'<td class="cost">'+dispCost(refCost)+'</td></tr>';
@@ -902,14 +1014,59 @@ document.getElementById('modelList').addEventListener('click', e=>{
   const b = e.target.closest('.mchip');
   if(b) showModel(b.dataset.model);
 });
-document.getElementById('intlCompanies').addEventListener('click', e=>{
-  const c = e.target.closest('.model-chip');
-  if(c){ switchTab('model'); showModel(c.dataset.model); }
+['intlCompanies','cnCompanies'].forEach(contId=>{
+  document.getElementById(contId).addEventListener('click', e=>{
+    const bill = e.target.closest('button[data-bc]');
+    if(bill){
+      const cid = bill.dataset.bc, b = bill.dataset.b;
+      billingByCompany[cid] = b;
+      const comp = companies.find(c=>c.id===cid);
+      const card = document.getElementById('card-'+cid);
+      if(card && comp) card.outerHTML = renderCompany(comp);
+      return;
+    }
+    const chip = e.target.closest('.model-chip');
+    if(chip){ switchTab('model'); showModel(chip.dataset.model); }
+  });
 });
-document.getElementById('cnCompanies').addEventListener('click', e=>{
-  const c = e.target.closest('.model-chip');
-  if(c){ switchTab('model'); showModel(c.dataset.model); }
+
+/* ==================== 排行榜 → 按公司页跳转 ==================== */
+/* 点击排名表的套餐名：切到「按公司浏览」tab、复位区域筛选以显示目标公司、
+   滚动到该套餐所在卡片并高亮目标套餐行。 */
+function jumpToPlan(cid, planName){
+  switchTab('company');
+  applyRegion('all');
+  const card = document.getElementById('card-'+cid);
+  if(!card) return;
+  document.querySelectorAll('.plan-row.hl').forEach(r=>r.classList.remove('hl'));
+  let target = null;
+  card.querySelectorAll('.plan-row').forEach(r=>{
+    if(r.getAttribute && r.getAttribute('data-pname')===String(planName)) target = r;
+  });
+  if(target){ target.classList.add('hl'); target.scrollIntoView({behavior:'smooth', block:'center'}); }
+  else { card.scrollIntoView({behavior:'smooth', block:'center'}); }
+}
+document.getElementById('rankTable').addEventListener('click', e=>{
+  const a = e.target.closest('.plan-jump');
+  if(a){ e.preventDefault(); jumpToPlan(a.dataset.cid, a.dataset.name); }
 });
+
+/* ==================== 数据完整性自检 ====================
+   新增模型时常忘：①加进 strongModels（否则卡片「强模型」分组不识别/不前置，isStrong 只兜底 r≥1.5）；
+   ②若有官方 API 按量牌价应补进 apiRefs（否则模型查询页无参考价行）。
+   启动时对「既非强模型、又无 API 牌价」的模型打警告，便于提交前核对（工具类/免费/多模态类可忽略）。
+   暴露 integrityCheck() 供 test/smoke.js 回归复用。 */
+function integrityCheck(){
+  const misses = [];
+  allPlans.forEach(p=>p.models.forEach(m=>{
+    if(!strongModels.has(m.n) && !(m.r && m.r>=1.5) && !apiMap[m.n]) misses.push(m.n+' @ '+p.company.name+'/'+p.name);
+  }));
+  const uniq = [...new Set(misses)];
+  if(uniq.length) console.warn('[报告数据] 以下模型既非强模型、也无 API 按量牌价，请核对是否需维护：\n  '+uniq.join('\n  '));
+  window.__reportIntegrity = uniq;
+  return uniq;
+}
+integrityCheck();
 
 /* ==================== 主题切换（深色 / 浅色 / 自动） ====================
    与 head 中的初始化脚本共享 localStorage 键 'aihot-theme'；

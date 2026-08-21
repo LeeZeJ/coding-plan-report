@@ -20,7 +20,7 @@ There are no build, lint, or test scripts. Useful operations:
   node --check <(sed -n '/<script>/,/<\/script>/p' coding-plan-report.html | sed 's/<\/?script>//g')
   ```
   Or copy the script content into a temporary `.js` file and run `node --check tmp.js`.
-- **Smoke test the rendering logic**: the memory note `.workbuddy/memory/2026-08-20.md` mentions a Node-based smoke test that mocks `getElementById` / `querySelector` / `classList` / `CSS.escape` and runs the full render path. There is no persisted test harness in the repo; recreate it from that note if needed.
+- **Smoke test the rendering logic**: run `node test/smoke.js` (or `npm test`). It extracts the main `<script>`, runs the full render path inside a `vm` sandbox with a mocked DOM (`getElementById` / `querySelector` / `querySelectorAll` / `classList` / `style` / `addEventListener`), and asserts: no `NaN`/`Infinity`/`undefined` in any rendered output, ranking rows are strictly ascending by cost, every company card and plan row renders, every `(plan, model)` cost pair is finite, and GLM 季卡/年卡 fields match the annual string (regression guard). Exit code nonzero on failure.
 
 ## Architecture
 
@@ -38,7 +38,7 @@ There are no build, lint, or test scripts. Useful operations:
 - **Core calculations**:
   - `FX = 7.1` fixed USD→CNY rate.
   - `planPriceCNY(p)` normalizes plan price to CNY.
-  - `planCost(p)` = `planPriceCNY(p) / tokensM`, giving cost per million tokens.
+  - `planCost(p)` = `planDiscCNY(p) / effTokensM(p)`, where `planDiscCNY(p) = planPriceCNY(p) × p.disc` (domestic promo factor, default `1`) and `effTokensM(p) = p.tokensM × cacheBoost(p)` (default `×10` — report uses a uniform 90%-cache-hit assumption; see the methodology tab). Gives cost per million tokens.
   - `allPlans` is built by flattening `companies[].plans` while excluding `payg` plans and plans with `tokensM === 0` (free tiers), so ranking and stats never divide by zero.
   - Display currency is fixed to CNY (`dispMoney` / `dispCost` / `costUnit`); the CNY↔USD toggle was removed. `FX` is still used to convert USD-denominated plan prices to CNY for comparison.
 - **Rendering**:
@@ -46,8 +46,9 @@ There are no build, lint, or test scripts. Useful operations:
   - Navigation is driven by the left sidebar (`data-tab` links → `switchTab`); there is no top nav bar. The sidebar also hosts the region filter (全部/仅国内/仅国外) and the theme switch (自动/浅色/深色). There are **no in-tab region filter buttons** — they were removed because the sidebar covers it; `applyRegion` is driven solely by `#sidebarRegion`.
   - `switchTab` toggles the `side-link-active` class on sidebar links (CSS class name — do not revert to a generic `active` class, that was the old highlighter bug).
   - `renderRank` sorts `allPlans` by `planCost` and draws a logarithmic comparison bar.
-  - `renderCompany` groups models into "strong" vs. "base" chips using `strongModels` set and the heuristic `m.r >= 1.5`.
-  - `showModel` computes per-model effective cost (`tokensM / rate`) and ranks supporting subscriptions.
+  - `renderCompany` groups models into "strong" vs. "base" chips using `strongModels` set and the heuristic `m.r >= 1.5`. Each plan row carries `data-pname="<plan name>"` (used by `jumpToPlan` for exact-match highlighting).
+  - `showModel` computes per-model effective cost (`tokensM × cacheBoost / rate`) and ranks supporting subscriptions.
+  - `integrityCheck()` runs at load and `console.warn`s any model that is neither a `strongModels` member/`r ≥ 1.5` nor present in `apiRefs` — a data-drift guard for when you add models (tools / free / multimodal entries are expected and safe to ignore).
 - **Exclusions from ranking**: OpenCode Zen (`payg: true`) and free tiers (`tokensM: 0`, e.g. CodeBuddy Free) are intentionally kept out of `allPlans` to avoid `NaN` costs, but they still appear in the vendor cards because `renderCompany` iterates `c.plans` directly.
 
 ## Data maintenance conventions
