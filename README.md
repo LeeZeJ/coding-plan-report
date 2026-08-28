@@ -6,7 +6,7 @@
 
 ## 在线预览
 
-https://cui0w253.sc.monkeycode-ai.online/#
+https://z2zv3mie.sc.monkeycode-ai.online/
 
 ## 本地查看
 
