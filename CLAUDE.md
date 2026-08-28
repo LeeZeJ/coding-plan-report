@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 16 vendors and 60+ subscription tiers):
+This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 17 vendors — 9 intl + 8 cn — and 66 paid subscription tiers; figures auto-derive in the UI, re-check here only when adding data):
 
 - **`coding-plan-report.html`** — the single merged report. It supports **light/dark theme switching** via an AIHOT-style segmented slider in the sidebar「外观」(深色 / 跟随系统 / 浅色), implemented the same way as the AIHOT site (`aihot.virxact.com`): `<html data-theme="light|dark">` + two sets of CSS variables + `localStorage['aihot-theme']`, default `auto` follows `prefers-color-scheme`. Verified working in a real browser (chrome-devtools-mcp): clicking each option flips `data-theme`/body background and slides the `.theme-toggle-thumb`; the choice survives reload (head script applies it before paint).
 
@@ -38,16 +38,16 @@ There are no build, lint, or test scripts. Useful operations:
 - **Core calculations**:
   - `FX = 7.1` fixed USD→CNY rate.
   - `planPriceCNY(p)` normalizes plan price to CNY.
-  - `planCost(p)` = `planDiscCNY(p) / effTokensM(p)`, where `planDiscCNY(p) = planPriceCNY(p) × p.disc` (domestic promo factor, default `1`) and `effTokensM(p) = p.tokensM × cacheBoost(p)` (default `×10` — report uses a uniform 90%-cache-hit assumption; see the methodology tab). Gives cost per million tokens.
+  - `planCost(p)` = `planDiscCNY(p) / effTokensM(p)`, where `planDiscCNY(p) = planPriceCNY(p) × p.disc` (domestic promo factor, default `1`) and `effTokensM(p) = p.tokensM` (report does not apply cache boost; actual available tokens are higher when prompt caching is active). Gives cost per million tokens.
   - `allPlans` is built by flattening `companies[].plans` while excluding `payg` plans and plans with `tokensM === 0` (free tiers), so ranking and stats never divide by zero.
   - Display currency is fixed to CNY (`dispMoney` / `dispCost` / `costUnit`); the CNY↔USD toggle was removed. `FX` is still used to convert USD-denominated plan prices to CNY for comparison.
 - **Rendering**:
   - Four tabs: ranking by cost, vendor cards, model query, and methodology.
-  - Navigation is driven by the left sidebar (`data-tab` links → `switchTab`); there is no top nav bar. The sidebar also hosts the region filter (全部/仅国内/仅国外) and the theme switch (自动/浅色/深色). There are **no in-tab region filter buttons** — they were removed because the sidebar covers it; `applyRegion` is driven solely by `#sidebarRegion`.
+  - Navigation is driven by the left sidebar (`data-tab` links → `switchTab`); there is no top nav bar. The sidebar also hosts the region filter (全部/仅国内/仅国外) and the theme switch (深色/跟随系统/浅色 — that DOM order matters: the `.theme-toggle-thumb` `data-pos` maps dark→0 / auto→100% / light→200%). There are **no in-tab region filter buttons** — they were removed because the sidebar covers it; `applyRegion` is driven solely by `#sidebarRegion`.
   - `switchTab` toggles the `side-link-active` class on sidebar links (CSS class name — do not revert to a generic `active` class, that was the old highlighter bug).
   - `renderRank` sorts `allPlans` by `planCost` and draws a logarithmic comparison bar.
   - `renderCompany` groups models into "strong" vs. "base" chips using `strongModels` set and the heuristic `m.r >= 1.5`. Each plan row carries `data-pname="<plan name>"` (used by `jumpToPlan` for exact-match highlighting).
-  - `showModel` computes per-model effective cost (`tokensM × cacheBoost / rate`) and ranks supporting subscriptions.
+  - `showModel` computes per-model effective cost (`tokensM / rate`) and ranks supporting subscriptions.
   - `integrityCheck()` runs at load and `console.warn`s any model that is neither a `strongModels` member/`r ≥ 1.5` nor present in `apiRefs` — a data-drift guard for when you add models (tools / free / multimodal entries are expected and safe to ignore).
 - **Exclusions from ranking**: OpenCode Zen (`payg: true`) and free tiers (`tokensM: 0`, e.g. CodeBuddy Free) are intentionally kept out of `allPlans` to avoid `NaN` costs, but they still appear in the vendor cards because `renderCompany` iterates `c.plans` directly.
 
@@ -61,4 +61,4 @@ There are no build, lint, or test scripts. Useful operations:
 
 ## Memory
 
-Project context and a detailed changelog are recorded in `.workbuddy/memory/2026-08-20.md`, including data sources, key assumptions, and recent fixes.
+Project context and data-source notes live in two in-repo docs: `README.md` (usage, methodology summary) and `国内Coding-Plan套餐官网与计价文档清单.md` (per-vendor pricing sources and verification records). The former `.workbuddy/memory/` path was a gitignored local file and no longer exists — keep changelog notes in the in-repo docs or in commit messages instead.

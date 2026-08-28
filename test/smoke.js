@@ -36,7 +36,7 @@ main += `
 ;globalThis.__smoke = {
   companies, allPlans, planCost, modelMap, apiMap,
   cacheBoost, effTokensM, planDiscCNY,
-  integrityCheck
+  integrityCheck, modelVendor, showModel
 };
 `;
 
@@ -158,9 +158,52 @@ assert((el('modelList').innerHTML.match(/class="mchip"/g) || []).length === Obje
 /* ---------- 断言 5：GLM 季卡/年卡字段回归（防 annualMonthly/quarterlyMonthly 错位复发） ---------- */
 const glmLite = S.allPlans.find(p => p.company.id === 'zhipu' && p.name === 'GLM Lite');
 assert(!!glmLite, '未找到 GLM Lite（可能改了名字）');
-assert(glmLite.annualMonthly === 94.4, 'GLM Lite annualMonthly 应为 94.4（连续包年月均），实际 ' + glmLite.annualMonthly);
-assert(glmLite.quarterlyMonthly === 118.0, 'GLM Lite quarterlyMonthly 应为 118（连续包季月均），实际 ' + glmLite.quarterlyMonthly);
-assert(glmLite.price === 94.4, 'GLM Lite price 应保持 94.4');
+assert(glmLite.annualMonthly === 66, 'GLM Lite annualMonthly 应为 66（连续包年月均），实际 ' + glmLite.annualMonthly);
+assert(glmLite.quarterlyMonthly === 75.5, 'GLM Lite quarterlyMonthly 应为 75.5（连续包季月均），实际 ' + glmLite.quarterlyMonthly);
+assert(glmLite.price === 118, 'GLM Lite price 应为 118（新版标准月价），实际 ' + glmLite.price);
+
+/* ---------- 断言 5b：模型厂商分组（腾讯「Auto 调度」不得误归字节） ---------- */
+assert(typeof S.modelVendor === 'function', 'modelVendor 应暴露为函数');
+assert(S.modelVendor('Auto 调度')==='腾讯', '腾讯 CodeBuddy「Auto 调度」应归入腾讯分组，实际 ' + S.modelVendor('Auto 调度'));
+assert(S.modelVendor('Auto 智能调度')==='字节', '火山方舟「Auto 智能调度」应归入字节分组');
+assert(S.modelVendor('Doubao-Seed-2.0-Code')==='字节', 'Doubao 系仍应归入字节分组');
+
+/* ---------- 断言 5c：MiniMax Ultra-极速 年付字段回归（补数据防复发） ---------- */
+const ultra = S.allPlans.find(p=>p.company.id==='minimax' && p.name==='MiniMax Ultra-极速');
+assert(!!ultra, '未找到 MiniMax Ultra-极速（可能改了名字）');
+assert(ultra.annualMonthly === 749.2, 'Ultra-极速 annualMonthly 应为 749.2（8990/12 月均），实际 ' + ultra.annualMonthly);
+assert(typeof ultra.annual === 'string' && ultra.annual.indexOf('8,990')>=0, 'Ultra-极速 annual 应含年付总额 8,990');
+assert(ultra.quota.indexOf('年付')<0, 'Ultra-极速 quota 不应再混入年付信息（已挪至 annual 字段）');
+
+/* ---------- 断言 5d：免费模型（r=0）在模型查询页的计数口径 ----------
+   SWE-1.5 在 Windsurf Pro/Max 中免费（r=0），不得渲染成「共 0 个订阅套餐支持」的矛盾文案 */
+assert(typeof S.showModel === 'function', 'showModel 应暴露为函数');
+S.showModel('SWE-1.5', true);
+const sweHtml = el('modelResult').innerHTML;
+assert(sweHtml.indexOf('共 2 个订阅套餐包含')>=0, 'SWE-1.5 应显示「共 2 个订阅套餐包含」（Windsurf Pro/Max 免费提供）');
+assert(sweHtml.indexOf('免费提供')>=0, 'SWE-1.5 空态行应说明「免费提供（不占额度）」');
+assert(!/共 0 个/.test(sweHtml), 'SWE-1.5 不得出现「共 0 个」矛盾计数');
+/* 对照组：正常模型计数口径不变 */
+S.showModel('Claude Sonnet 4.6', true);
+const sonnetHtml = el('modelResult').innerHTML;
+assert(/共 \d+ 个订阅套餐包含/.test(sonnetHtml), '正常模型仍应显示「共 N 个订阅套餐包含」');
+assert(sonnetHtml.indexOf('免费模型不占额度')<0, '无免费档的模型不应附带免费说明');
+
+/* ---------- 断言 5e：OpenCode Go 模型清单对齐官方 2026-08 文档（GPT-5.6 Luna 回归守卫） ----------
+   官方来源：opencode.ai/zh/go 定价页 + opencode.ai/docs/zh-cn/go 模型清单（2026-08-27/28 快照），
+   GPT-5.6 Luna / Kimi K3 / Grok 4.5 等均在 Go 套餐内；GLM-5 已被官方清单移除。 */
+const ocGo = S.allPlans.find(p=>p.company.id==='opencode' && p.name==='OpenCode Go');
+assert(!!ocGo, '未找到 OpenCode Go（可能改了名字）');
+const ocGoModels = ocGo.models.map(m=>m.n);
+['GPT-5.6 Luna','Kimi K3','Grok 4.5','GLM-5.2','GLM-5.3','Qwen3.8-Max','LongCat-2.0'].forEach(n=>
+  assert(ocGoModels.indexOf(n)>=0, 'OpenCode Go 应包含 '+n+'（官方 2026-08 清单）'));
+assert(ocGoModels.indexOf('GLM-5')<0, 'OpenCode Go 官方清单已移除 GLM-5（应为 GLM-5.1/5.2/5.3），不应残留');
+assert(ocGo.models.length >= 20, 'OpenCode Go 模型数应 ≥20（官方约 22 个），实际 ' + ocGo.models.length);
+assert(ocGo.models.find(m=>m.n==='Kimi K3').r === 3, 'Go 内 Kimi K3 应按牌价折耗 r=3（官方 $15 价值档 / $60 帽），实际 ' + ocGo.models.find(m=>m.n==='Kimi K3').r);
+S.showModel('GPT-5.6 Luna', true);
+const lunaHtml = el('modelResult').innerHTML;
+assert(lunaHtml.indexOf('OpenCode')>=0, '查询 GPT-5.6 Luna 应列出 OpenCode Go 套餐');
+assert(lunaHtml.indexOf('ChatGPT')>=0, '查询 GPT-5.6 Luna 仍应列出 ChatGPT 系套餐');
 
 /* ---------- 断言 6：完整性自检结果合理 ---------- */
 assert(typeof S.integrityCheck === 'function', 'integrityCheck 应暴露为函数');
@@ -168,7 +211,7 @@ assert(typeof S.integrityCheck === 'function', 'integrityCheck 应暴露为函�
 const integrity = (windowStub.__reportIntegrity || []);
 assert(Array.isArray(integrity), 'window.__reportIntegrity 应为数组');
 /* 已知"需核对"集合应只含工具/免费/多模态等无 token 牌价模型，不应包含纯 LLM 旗舰 */
-const knownBenign = ['SWE-1.5','Seedream','Seamless','联网搜索','全模型可选','Auto'];
+const knownBenign = ['SWE-1.5','Seedream','Seamless','联网搜索','全模型可选','Auto','GLM-5.3-Flash','LongCat','Muse Spark'];
 const unexpected = integrity.filter(m => !knownBenign.some(k => m.indexOf(k) >= 0));
 assert(unexpected.length === 0, '完整性自检出现预期外待核对模型：' + unexpected.join('；'));
 
