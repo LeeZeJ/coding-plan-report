@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 17 vendors — 9 intl + 8 cn — and 66 paid subscription tiers; figures auto-derive in the UI, re-check here only when adding data):
+This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 18 vendors — 10 intl + 8 cn — and 79 paid subscription tiers; figures auto-derive in the UI, re-check here only when adding data):
 
 - **`coding-plan-report.html`** — the single merged report. It supports **light/dark theme switching** via an AIHOT-style segmented slider in the sidebar「外观」(深色 / 跟随系统 / 浅色), implemented the same way as the AIHOT site (`aihot.virxact.com`): `<html data-theme="light|dark">` + two sets of CSS variables + `localStorage['aihot-theme']`, default `auto` follows `prefers-color-scheme`. Verified working in a real browser (chrome-devtools-mcp): clicking each option flips `data-theme`/body background and slides the `.theme-toggle-thumb`; the choice survives reload (head script applies it before paint).
 
@@ -35,6 +35,7 @@ There are no build, lint, or test scripts. Useful operations:
   - Each plan has `price`, `cur` (`'CNY'` | `'USD'`), `tokensM` (estimated monthly tokens in millions), `models[]`, plus optional `promo`, `annual`, `tag`, and `payg`.
   - Each model entry is `{ n: name, r: consumptionRate, tag? }`.
   - `apiRefs[]` stores API pay-as-you-go reference prices for the model-query tab.
+  - Key model families (as of 2026-09): Anthropic Opus 5 / Sonnet 5 / Fable 5.1; OpenAI GPT-5.6 Sol / Terra / Luna / Cyber; Google Gemini 3.1 Pro / Deep Think; xAI Grok 4.5 / 4 Heavy; 智谱 GLM-5.3 / 5.2; 阿里 Qwen3.8-Max; 火山 Doubao-Seed-2.0-Code; Kimi K3; MiniMax-M3; DeepSeek-V4-Pro; 小米 MiMo-V2.5-Pro.
 - **Core calculations**:
   - `FX = 7.1` fixed USD→CNY rate.
   - `planPriceCNY(p)` normalizes plan price to CNY.
@@ -61,4 +62,4 @@ There are no build, lint, or test scripts. Useful operations:
 
 ## Memory
 
-Project context and data-source notes live in two in-repo docs: `README.md` (usage, methodology summary) and `国内Coding-Plan套餐官网与计价文档清单.md` (per-vendor pricing sources and verification records). The former `.workbuddy/memory/` path was a gitignored local file and no longer exists — keep changelog notes in the in-repo docs or in commit messages instead.
+Project context and data-source notes live in three in-repo docs: `README.md` (usage, methodology summary), `UPDATE-WORKFLOW.md` (data update workflow, vendor checklist, model tracking), and `国内Coding-Plan套餐官网与计价文档清单.md` (per-vendor pricing sources and verification records). The former `.workbuddy/memory/` path was a gitignored local file and no longer exists — keep changelog notes in the in-repo docs or in commit messages instead.
