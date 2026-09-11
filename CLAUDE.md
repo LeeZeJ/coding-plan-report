@@ -35,7 +35,7 @@ There are no build, lint, or test scripts. Useful operations:
   - Each plan has `price`, `cur` (`'CNY'` | `'USD'`), `tokensM` (estimated monthly tokens in millions), `models[]`, plus optional `promo`, `annual`, `tag`, and `payg`.
   - Each model entry is `{ n: name, r: consumptionRate, tag? }`.
   - `apiRefs[]` stores API pay-as-you-go reference prices for the model-query tab.
-  - Key model families (as of 2026-09): Anthropic Opus 5 / Sonnet 5 / Fable 5.1; OpenAI GPT-5.6 Sol / Terra / Luna / Cyber; Google Gemini 3.1 Pro / Deep Think; xAI Grok 4.5 / 4 Heavy; 智谱 GLM-5.3 / 5.2; 阿里 Qwen3.8-Max; 火山 Doubao-Seed-2.0-Code; Kimi K3; MiniMax-M3; DeepSeek-V4-Pro; 小米 MiMo-V2.5-Pro.
+  - Key model families (as of 2026-09-11): Anthropic Opus 5 / Sonnet 5 / Fable 5.1; OpenAI GPT-6 Astra (new flagship, 09-03) / GPT-5.6 Sol / Terra / Luna / Cyber; Google Gemini 3.8 Flash (09-02 GA) / 3.1 Pro / Deep Think; xAI Grok 4.6 (fully rolled out) / 4 Heavy; 智谱 GLM-5.3 / 5.2; 阿里 Qwen3.8-Max (0902); 火山 Doubao-Seed-Evolving / Doubao-Seed-2.0-Code; Kimi K3; MiniMax-M3; DeepSeek-V4.1-Flash (09-10) / V4-Pro; 小米 MiMo-V2.5-Pro (MiMo-X preview invite-only, not yet in plans).
 - **Core calculations**:
   - `FX = 7.1` fixed USD→CNY rate.
   - `planPriceCNY(p)` normalizes plan price to CNY.

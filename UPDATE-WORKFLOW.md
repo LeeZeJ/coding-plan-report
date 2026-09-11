@@ -1,7 +1,7 @@
 # 数据更新流程
 
-> 最后更新：2026-09-02
-> 适用版本：v2026-09（18 厂商 / 79 档 / 78 模型）
+> 最后更新：2026-09-11
+> 适用版本：v2026-09（18 厂商 / 79 档 / 82 模型）
 
 ## 更新频率
 
@@ -101,20 +101,20 @@
 | 厂商 | 追踪模型 | 备注 |
 |------|---------|------|
 | Anthropic | Claude Opus 5, Sonnet 5, Fable 5.1, Haiku 4.5 | Opus 5 为最强旗舰 |
-| OpenAI | GPT-5.6 Sol, Sol Pro, Terra, Luna, Cyber, GPT-5.5-pro | Sol 促销价关注截止日期 |
-| Google | Gemini 3.1 Pro, Deep Think, 3.7 Flash, 3.6 Flash | Deep Think 为 Ultra 专属 |
-| xAI | Grok 4.5, 4.6, 4 Heavy, 4.3 | 4.6 为最新版 |
+| OpenAI | GPT-6 Astra（订阅内名 GPT-6 Pro）, GPT-5.6 Sol/Sol Pro/Terra/Luna/Cyber | Astra 2026-09-03 发布；$200 档 Pro 9-09 起暂停新订阅 |
+| Google | Gemini 3.8 Flash, 3.1 Pro, Deep Think, 3.7/3.6 Flash | 3.8 Flash 09-02 GA；Pro 级旗舰仍为 3.1 Pro |
+| xAI | Grok 4.6, 4.5, 4 Heavy, 4.3 | 4.6（2T 参数）已于 8-12 全量推送 |
 | Cursor | Claude Sonnet 4.6, Opus 4.6, GPT-5.4, Gemini 3 Pro | 随上游模型更新 |
-| GitHub Copilot | GPT-5.5, Claude Sonnet 4.6, Opus 4.6, Gemini 2.5 Pro, o3 | Credits 制 |
-| 智谱 | GLM-5.3, 5.3-Flash, 5.2, 5-Turbo | 5.3 为旗舰，5.3-Flash 开源 |
-| 阿里 | Qwen3.8-Max, qwen3.7-plus, qwen3.7-max | 8-Max 为最强 |
-| 火山 | Doubao-Seed-2.0-Code, Seedance 2.5, Seedream 5.0 Pro | 多模态关注 |
+| GitHub Copilot | Grok 4.6（08-14 上线）, GPT-5.5, Claude Sonnet 4.6, Opus 4.6, Gemini 2.5 Pro, o3 | Credits 制 |
+| 智谱 | GLM-5.3, 5.3-Flash, 5.2, 5-Turbo | 5.3 为旗舰；GLM-6.0（全自训练）已披露未发布 |
+| 阿里 | Qwen3.8-Max（0902 刷新版）, qwen3.7-plus, qwen3.7-max | 8 月开源 Qwen3.8-2.4T-A95B |
+| 火山 | Doubao-Seed-Evolving, Doubao-Seed-2.0-Code, Seedance 2.5, Seedream 5.0 Pro | Evolving 周级升级、1M 上下文 |
 | MiniMax | MiniMax-M3, M2.7, highspeed 系列 | M3 为最新 |
 | 腾讯 | 混元 HY (Hy3), GLM-5.2, Kimi K3, MiniMax-M3 | K3 高消耗 |
 | 百度 | ERNIE 5.1, 5.0 | 5.1 为旗舰 |
-| Kimi | Kimi K3, K2.7 Code, K2.5 | K3 为最强 |
-| 小米 | MiMo-V2.5-Pro, V2.5 | 关注 V3 进展 |
-| DeepSeek | DeepSeek-V4-Pro, V4-Flash | 峰谷计价 |
+| Kimi | Kimi K3, K2.7 Code, K2.6 | K3 为最强（9-08 上线视觉理解版） |
+| 小米 | MiMo-V2.5-Pro, V2.5 | 9-08 开放 MiMo-X-Pro/Flash-Preview（V3 系列）邀测 |
+| DeepSeek | DeepSeek-V4.1-Flash（09-10 发布）, V4-Pro, V4-Flash | 峰谷计价 |
 | Command Code | taste-1, 50+ 模型 | 关注新模型接入 |
 
 ## 常见更新场景速查
