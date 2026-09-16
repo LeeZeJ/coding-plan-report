@@ -337,7 +337,7 @@
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-filing">数据截至 2026-09-15<br>汇率 1 USD ≈ 7.1 CNY</div>
+      <div class="sidebar-filing">数据截至 2026-09-16<br>汇率 1 USD ≈ 7.1 CNY</div>
     </div>
   </aside>
   <div class="app-main">
@@ -346,7 +346,7 @@
         <h1>全球 AI Coding Plan / Token Plan 套餐研究报告</h1>
         <div class="subtitle" id="subtitle">覆盖国内外 16 家厂商 · 60+ 档付费订阅套餐 · 多产品线拆分（Coding Plan / Agent Plan / Token Plan）· 统一换算 token 单价 · 模型级划算程度查询</div>
         <div class="meta">
-          <span>数据截至：2026-09-15</span>
+          <span>数据截至：2026-09-16</span>
           <span>汇率假设：1 USD ≈ 7.1 CNY</span>
           <span>口径：月付标准价（首月优惠按「首月价」并入排名并特别标注，次月起恢复标准价；年付折扣另行标注）</span>
           <span>token 额度为估算值，方法见「换算方法」页</span>
@@ -430,12 +430,12 @@
     <ul class="method">
       <li>官方定价页：Anthropic、OpenAI、Google、xAI、Cursor、GitHub Copilot、Windsurf、OpenCode、Command Code（commandcode.ai）、智谱 bigmodel.cn（含龙虾套餐页）、阿里云百炼、火山引擎（Coding Plan + Agent Plan 页）、MiniMax（Token Plan 页）、百度千帆、腾讯云（Token Plan + CodeBuddy 页）、Moonshot（国际版 + 国内版）、小米 MiMo（mimo.mi.com 按量计费+Token Plan）、DeepSeek API Docs</li>
       <li>官方公告：GitHub Blog（2026-06-01 起 Copilot 转向用量计费）、Windsurf 定价改版公告（2026-03-19）、Google I/O 2026 套餐调整、DeepSeek 峰谷计价公告（2026-08-17 生效）、腾讯云 Token Plan 积分制切换（2026-08-31）</li>
-      <li>模型评分：AIHOT 大模型排行榜（aihot.virxact.com/leaderboard，共识分综合 7 家公开榜单，2026-09-15 更新）</li>
+      <li>模型评分：AIHOT 大模型排行榜（aihot.virxact.com/leaderboard，共识分综合 7 家公开榜单，2026-09-16 更新）</li>
       <li>第三方交叉验证：CloudZero、PricePerToken、SubChoice、UBS / Morgan Stanley 研报（2026-03 / 2026-08）、国内开发者社区横评（掘金、CSDN 等）</li>
     </ul>
   </div>
   <div class="footnote">
-    免责声明：AI 订阅套餐价格与额度变动极快（2026 年 8-9 月行业剧变：OpenAI 9-03 发布 GPT-6 Astra 并于 9-09 暂停 $200 档 Pro 新订阅、GPT-5.6 Sol 一个月内两次降价共 -20%+；Google 六周内连发三款 Flash（3.7/3.8 半价）；Anthropic 发布 Opus 5 / Sonnet 5 / Fable 5.1；智谱 GLM Coding Plan 改版涨价 60%-150%、GLM-5.3-Flash 海外促销 9-09 结束；DeepSeek V4 引入峰谷计价、高峰翻倍；小米 9-08 开放 MiMo-X 预览邀测；Windsurf 整合至 Devin；OpenCode 更名 Crush；Command Code 上线）。本报告数据截至 2026-09-15，仅供参考，购买前请以各厂商官方页面实时价格为准。
+    免责声明：AI 订阅套餐价格与额度变动极快（2026 年 8-9 月行业剧变：OpenAI 9-03 发布 GPT-6 Astra 并于 9-09 暂停 $200 档 Pro 新订阅、GPT-5.6 Sol 一个月内两次降价共 -20%+；Google 六周内连发三款 Flash（3.7/3.8 半价）；Anthropic 发布 Opus 5 / Sonnet 5 / Fable 5.1；智谱 GLM Coding Plan 改版涨价 60%-150%、GLM-5.3-Flash 海外促销 9-09 结束；DeepSeek V4 引入峰谷计价、高峰翻倍；小米 9-08 开放 MiMo-X 预览邀测；Windsurf 整合至 Devin；OpenCode 更名 Crush；Command Code 上线）。本报告数据截至 2026-09-16，仅供参考，购买前请以各厂商官方页面实时价格为准。
   </div>
 </div>
 </div>
@@ -767,7 +767,7 @@ const companies = [
 ];
 
 /* API 按量参考价（每百万 tokens：输入/输出；blend 按 输入:输出=3:1 混合）
-   2026-09-11 建立，2026-09-15 复核无变动：覆盖全部有公开 API 按量价的模型（官方牌价；订阅专属/工具类无牌价者不列）。
+   2026-09-11 建立，2026-09-16 复核无变动：覆盖全部有公开 API 按量价的模型（官方牌价；订阅专属/工具类无牌价者不列）。
    价格口径：USD = 各厂国际站牌价；CNY = 国内站牌价（阿里/智谱/火山/腾讯等国内站） */
 const apiRefs = [
  /* Anthropic（官方 2026-09；缓存读取 = 基础输入价 × 0.1） */
@@ -899,24 +899,25 @@ companies.forEach(c => c.plans.forEach(p => {
   allPlans.push(Object.assign({company:c, region:c.region}, p));
 }));
 
-/* ==================== AIHOT 模型共识分（来源：aihot.virxact.com/leaderboard，2026-09-15） ====================
-   TOP30 分数按 09-15 榜单刷新（GLM-5.2 系榜单重算大跌 54.6→43.6，照实更新）；榜外模型沿用上期分数。
-   'Qwen3.8-Max' 取榜单 0902 刷新版分数（套餐模型即 0902 版）；GLM-5.3-Flash 双写连字符/空格两种键名，兼容套餐数据两种写法。 */
+/* ==================== AIHOT 模型共识分（来源：aihot.virxact.com/leaderboard，2026-09-16） ====================
+   TOP30 分数按 09-16 榜单刷新（"证据敏感"组整体重算约 -4 分，头部旗舰 -0.5~-1）；榜外模型沿用上期分数。
+   'Qwen3.8-Max' 取榜单 0902 刷新版分数（套餐模型即 0902 版）；原版 Qwen3.8 Max（07-19）09-16 以 84.5 新进榜第 7，仅 API 在售未入套餐，故不设键。
+   GLM-5.3-Flash 双写连字符/空格两种键名，兼容套餐数据两种写法。 */
 const modelScores = {
-  'GPT-6 Astra':93.7,'Claude Fable 5.1':93.7,'Claude Fable 5':93.3,'Claude Opus 5':93.3,
-  'Muse Spark 1.3':91.2,'GPT-5.6 Sol':88.9,'GLM-5.3':85.7,'Grok 4.6':84.0,
-  'Kimi K3':83.0,'kimi-k3':83.0,'GPT-5.6 Terra':80.5,'Claude Opus 4.8':78.8,
-  'Gemini 3.8 Flash':78.2,'Gemini Deep Think':86.4,'GPT-5.6 Sol Pro':83.7,
+  'GPT-6 Astra':93.2,'Claude Fable 5.1':93.2,'Claude Fable 5':92.8,'Claude Opus 5':92.7,
+  'Muse Spark 1.3':90.5,'GPT-5.6 Sol':87.9,'GLM-5.3':81.6,'Grok 4.6':79.8,
+  'Kimi K3':78.8,'kimi-k3':78.8,'GPT-5.6 Terra':76.3,'Claude Opus 4.8':74.6,
+  'Gemini 3.8 Flash':74.0,'Gemini Deep Think':86.4,'GPT-5.6 Sol Pro':83.7,
   'Grok 4 Heavy':74.7,'Qwen3.8-Flash':65.8,
-  'Qwen3.8-Max':77.7,'GLM-5.3-Flash':77.0,'GLM-5.3 Flash':77.0,
-  'Claude Opus 4.7':75.9,'Qwen3.8 Flash Next':71.1,'Muse Spark 1.2':69.7,
-  'DeepSeek V4.1 Flash':67.3,'DeepSeek-V4.1-Flash':67.3,
-  'Gemini 3.7 Flash':65.7,'Grok 4.5':60.4,'GPT-5.5':60.1,'GPT-5.4':60.1,
+  'Qwen3.8-Max':73.6,'GLM-5.3-Flash':73.0,'GLM-5.3 Flash':73.0,
+  'Claude Opus 4.7':72.1,'Qwen3.8 Flash Next':70.4,'Muse Spark 1.2':69.0,
+  'DeepSeek V4.1 Flash':66.8,'DeepSeek-V4.1-Flash':66.8,
+  'Gemini 3.7 Flash':65.3,'Grok 4.5':60.2,'GPT-5.5':59.9,'GPT-5.4':59.9,
   'GPT-5.3-Codex-Spark':57.2,'GPT-5.3-Codex':57.2,
-  'Claude Sonnet 5':56.9,'GPT-5.6 Luna':54.2,
-  'DeepSeek-V4-Pro':53.6,'DeepSeek-V4-Flash':49.0,'Muse Spark 1.1':48.1,
-  'Gemini 3.6 Flash':47.5,'Gemini 3.1 Pro':42.0,
-  'GLM-5.2':43.6,'glm-5.2':43.6,
+  'Claude Sonnet 5':56.8,'GPT-5.6 Luna':54.3,
+  'DeepSeek-V4-Pro':53.6,'DeepSeek-V4-Flash':49.3,'Muse Spark 1.1':48.5,
+  'Gemini 3.6 Flash':47.8,'Gemini 3.1 Pro':42.0,
+  'GLM-5.2':44.2,'glm-5.2':44.2,
   'GLM-5':46.6,'GLM-5-Turbo':63.4,'GLM-5.1':46.6,'GLM-4.7':34.8,
   'qwen3.7-plus':34.8,'qwen3.7-max':34.8,'qwen3.6-plus':34.8,
   'qwen3-coder-plus':34.8,'Qwen 3.8 27B':43.7,'Qwen 3.7 Max':34.8,
