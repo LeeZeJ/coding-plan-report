@@ -337,7 +337,7 @@
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="sidebar-filing">数据截至 2026-09-21<br>汇率 1 USD ≈ 7.1 CNY</div>
+      <div class="sidebar-filing">数据截至 2026-09-24<br>汇率 1 USD ≈ 7.1 CNY</div>
     </div>
   </aside>
   <div class="app-main">
@@ -346,7 +346,7 @@
         <h1>全球 AI Coding Plan / Token Plan 套餐研究报告</h1>
         <div class="subtitle" id="subtitle">覆盖国内外 16 家厂商 · 60+ 档付费订阅套餐 · 多产品线拆分（Coding Plan / Agent Plan / Token Plan）· 统一换算 token 单价 · 模型级划算程度查询</div>
         <div class="meta">
-          <span>数据截至：2026-09-21</span>
+          <span>数据截至：2026-09-24</span>
           <span>汇率假设：1 USD ≈ 7.1 CNY</span>
           <span>口径：月付标准价（首月优惠按「首月价」并入排名并特别标注，次月起恢复标准价；年付折扣另行标注）</span>
           <span>token 额度为估算值，方法见「换算方法」页</span>
@@ -430,12 +430,12 @@
     <ul class="method">
       <li>官方定价页：Anthropic、OpenAI、Google、xAI、Cursor、GitHub Copilot、Windsurf、OpenCode、Command Code（commandcode.ai）、智谱 bigmodel.cn（含龙虾套餐页）、阿里云百炼、火山引擎（Coding Plan + Agent Plan 页）、MiniMax（Token Plan 页）、百度千帆、腾讯云（Token Plan + CodeBuddy 页）、Moonshot（国际版 + 国内版）、小米 MiMo（mimo.mi.com 按量计费+Token Plan）、DeepSeek API Docs</li>
       <li>官方公告：GitHub Blog（2026-06-01 起 Copilot 转向用量计费）、Windsurf 定价改版公告（2026-03-19）、Google I/O 2026 套餐调整、DeepSeek 峰谷计价公告（2026-08-17 生效）、腾讯云 Token Plan 积分制切换（2026-08-31）</li>
-      <li>模型评分：AIHOT 大模型排行榜（aihot.virxact.com/leaderboard，共识分综合 7 家公开榜单，2026-09-21 更新）</li>
+      <li>模型评分：AIHOT 大模型排行榜（aihot.virxact.com/leaderboard，共识分综合 9 家机构 20 项公开评测，2026-09-24 更新）</li>
       <li>第三方交叉验证：CloudZero、PricePerToken、SubChoice、UBS / Morgan Stanley 研报（2026-03 / 2026-08）、国内开发者社区横评（掘金、CSDN 等）</li>
     </ul>
   </div>
   <div class="footnote">
-    免责声明：AI 订阅套餐价格与额度变动极快（2026 年 8-9 月行业剧变：OpenAI 9-03 发布 GPT-6 Astra 并于 9-09 暂停 $200 档 Pro 新订阅、GPT-5.6 Sol 一个月内两次降价共 -20%+；Google 六周内连发三款 Flash（3.7/3.8 半价）；Anthropic 发布 Opus 5 / Sonnet 5 / Fable 5.1；智谱 GLM Coding Plan 改版涨价 60%-150%、GLM-5.3-Flash 海外促销 9-09 结束；DeepSeek V4 引入峰谷计价、高峰翻倍；小米 9-08 开放 MiMo-X 预览邀测；Windsurf 整合至 Devin；OpenCode 更名 Crush；Command Code 上线）。本报告数据截至 2026-09-21，仅供参考，购买前请以各厂商官方页面实时价格为准。
+    免责声明：AI 订阅套餐价格与额度变动极快（2026 年 8-9 月行业剧变：OpenAI 9-03 发布 GPT-6 Astra 并于 9-09 暂停 $200 档 Pro 新订阅、GPT-5.6 Sol 一个月内两次降价共 -20%+；Google 六周内连发三款 Flash（3.7/3.8 半价）；Anthropic 发布 Opus 5 / Sonnet 5 / Fable 5.1 并于 9-17 追加 Opus 5.5（API 降 20%）；OpenAI 9-22 追加 GPT-6 Sol / Luna（API 较 5.6 同名降 50%）；智谱 GLM Coding Plan 改版涨价 60%-150%、GLM-5.3-Flash 海外促销 9-09 结束；DeepSeek V4 引入峰谷计价、高峰翻倍；小米 9-08 开放 MiMo-X 预览邀测；Windsurf 整合至 Devin；OpenCode 更名 Crush；Command Code 上线）。本报告数据截至 2026-09-24，仅供参考，购买前请以各厂商官方页面实时价格为准。
   </div>
 </div>
 </div>
@@ -449,32 +449,32 @@ const FX = 7.1;
 const companies = [
 /* ---------- 国际 ---------- */
 {id:'anthropic', name:'Anthropic', product:'Claude · Claude Code', region:'intl', country:'美国', url:'https://www.anthropic.com/pricing',
- desc:'订阅含网页 / App / Claude Code / Cowork 共享额度池；5 小时会话限制 + 周限额双重机制。2026-09 新旗舰：Opus 5 / Sonnet 5 / Fable 5.1（Mythos 级），旧款 Opus 4.8 / Sonnet 4.6 列为 Legacy。',
+ desc:'订阅含网页 / App / Claude Code / Cowork 共享额度池；5 小时会话限制 + 周限额双重机制。2026-09 新旗舰：Opus 5.5（09-17 上线，API $4/$20 较 Opus 5 降 20%、缓存降 60%，1M 上下文，Claude Code v2.1.280 起为默认 Opus，Pro/Team 默认模型同步改为 Opus）/ Opus 5 / Sonnet 5 / Fable 5.1（Mythos 级），旧款 Opus 4.8 / Sonnet 4.6 列为 Legacy。',
  plans:[
   {name:'Claude Pro', price:20, cur:'USD', quota:'会话制：5小时窗口 + 周限额', tokensM:3.5, annual:'年付 $200（合 $17/月）', annualMonthly:120.7, quarterlyMonthly:134.9,
-   models:[{n:'Claude Sonnet 5',r:1,tag:'新旗舰'},{n:'Claude Opus 5',r:4},{n:'Claude Fable 5.1',r:8,tag:'Mythos级'},{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.8',r:4},{n:'Claude Haiku 4.5',r:0.25}],
+   models:[{n:'Claude Opus 5.5',r:3,tag:'09-17 新旗舰·1M上下文'},{n:'Claude Sonnet 5',r:1,tag:'新旗舰'},{n:'Claude Opus 5',r:4},{n:'Claude Fable 5.1',r:8,tag:'Mythos级'},{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.8',r:4},{n:'Claude Haiku 4.5',r:0.25}],
    note:'含 Claude Code；API 收支平衡点约 3.7M tokens/月'},
   {name:'Claude Max 5x', price:100, cur:'USD', quota:'5× Pro 用量；优先接入；500K 上下文', tokensM:17.5,
-   models:[{n:'Claude Sonnet 5',r:1,tag:'新旗舰'},{n:'Claude Opus 5',r:4},{n:'Claude Fable 5.1',r:8,tag:'Mythos级'},{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.8',r:4},{n:'Claude Haiku 4.5',r:0.25}],
+   models:[{n:'Claude Opus 5.5',r:3,tag:'09-17 新旗舰·1M上下文'},{n:'Claude Sonnet 5',r:1,tag:'新旗舰'},{n:'Claude Opus 5',r:4},{n:'Claude Fable 5.1',r:8,tag:'Mythos级'},{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.8',r:4},{n:'Claude Haiku 4.5',r:0.25}],
    note:'Fable 5.1 最高可占用 50% 周额度'},
   {name:'Claude Max 20x', price:200, cur:'USD', quota:'20× Pro 用量；最高优先级', tokensM:70,
-   models:[{n:'Claude Sonnet 5',r:1,tag:'新旗舰'},{n:'Claude Opus 5',r:4},{n:'Claude Fable 5.1',r:8,tag:'Mythos级'},{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.8',r:4},{n:'Claude Haiku 4.5',r:0.25}],
+   models:[{n:'Claude Opus 5.5',r:3,tag:'09-17 新旗舰·1M上下文'},{n:'Claude Sonnet 5',r:1,tag:'新旗舰'},{n:'Claude Opus 5',r:4},{n:'Claude Fable 5.1',r:8,tag:'Mythos级'},{n:'Claude Sonnet 4.6',r:1},{n:'Claude Opus 4.8',r:4},{n:'Claude Haiku 4.5',r:0.25}],
    note:'官方：90% Claude Code 用户日花费 <$30；重度用户折合约 $6.5/天'}
  ]},
 {id:'openai', name:'OpenAI', product:'ChatGPT · Codex', region:'intl', country:'美国', url:'https://openai.com/chatgpt/pricing/',
- desc:'ChatGPT 与 Codex 共享用量；Pro 档可选 5x / 20x；Go 档在美国区含广告。2026-09-03 发布新旗舰 GPT-6 Astra（订阅内选项名 GPT-6 Pro，105 万上下文，API $10/$50）：Pro 档在 Chat 中可用，Plus 档限 Work / Codex 入口（需 Codex CLI ≥0.153）。Astra 需求空前，9-09 起 $200 档 Pro 20x 暂停新订阅（存量不受影响）；GPT-5.6 Sol 促销 $4/$20 持续至 11/21；o3 已于 8/26 停止提供。',
+ desc:'ChatGPT 与 Codex 共享用量；Pro 档可选 5x / 20x；Go 档在美国区含广告。2026-09-03 发布新旗舰 GPT-6 Astra（订阅内选项名 GPT-6 Pro，105 万上下文，API $10/$50）：Pro 档在 Chat 中可用，Plus 档限 Work / Codex 入口（需 Codex CLI ≥0.153）。Astra 需求空前，9-09 起 $200 档 Pro 20x 暂停新订阅（存量不受影响）；9-22 发布 GPT-6 Sol（$2/$10）与 GPT-6 Luna（$0.10/$0.50），API 较 5.6 同名降价 50%，已推送至 Plus / Pro / Business / Enterprise / Edu 的 Work 与 Codex 入口；GPT-5.6 Sol 促销 $4/$20 持续至 11/21；o3 已于 8/26 停止提供。',
  plans:[
   {name:'ChatGPT Go', price:8, cur:'USD', quota:'轻度用量；每 3 小时 160 条 Luna 消息', tokensM:0.8,
    models:[{n:'GPT-5.6 Luna',r:0.25,tag:'默认模型'},{n:'GPT-5.6 Terra',r:0.5,tag:'限Codex'}],
    note:'不含 Sol 推理档、Astra 与 Agent 模式'},
   {name:'ChatGPT Plus', price:20, cur:'USD', quota:'Codex 网页 / CLI / IDE 共享额度', tokensM:3,
-   models:[{n:'GPT-6 Astra',r:2.5,tag:'新旗舰·限Work/Codex'},{n:'GPT-5.6 Sol',r:1},{n:'GPT-5.6 Terra',r:0.5},{n:'GPT-5.6 Luna',r:0.25,tag:'高限额'}],
+   models:[{n:'GPT-6 Astra',r:2.5,tag:'新旗舰·限Work/Codex'},{n:'GPT-6 Sol',r:0.5,tag:'09-22 新旗舰·限Work/Codex'},{n:'GPT-6 Luna',r:0.125,tag:'限Work/Codex'},{n:'GPT-5.6 Sol',r:1},{n:'GPT-5.6 Terra',r:0.5},{n:'GPT-5.6 Luna',r:0.25,tag:'高限额'}],
    note:'3 年未涨价；Astra 仅在 Work / Codex 入口限量可用，Chat 主界面仍为 Sol'},
   {name:'ChatGPT Pro (5x)', price:100, cur:'USD', quota:'5× Plus 用量', tokensM:15, tag:'2026-04 新档',
-   models:[{n:'GPT-6 Astra',r:2.5,tag:'新旗舰·GPT-6 Pro'},{n:'GPT-5.6 Sol',r:1},{n:'GPT-5.6 Sol Pro',r:2},{n:'GPT-5.3-Codex-Spark',r:0.5,tag:'研究预览'},{n:'GPT-5.6 Terra',r:0.5},{n:'GPT-5.6 Luna',r:0.25}],
+   models:[{n:'GPT-6 Astra',r:2.5,tag:'新旗舰·GPT-6 Pro'},{n:'GPT-6 Sol',r:0.5,tag:'09-22 新旗舰'},{n:'GPT-6 Luna',r:0.125},{n:'GPT-5.6 Sol',r:1},{n:'GPT-5.6 Sol Pro',r:2},{n:'GPT-5.3-Codex-Spark',r:0.5,tag:'研究预览'},{n:'GPT-5.6 Terra',r:0.5},{n:'GPT-5.6 Luna',r:0.25}],
    note:'Chat 中可选 GPT-6 Pro（Astra 驱动）；含 Sol Pro 与 Codex-Spark'},
   {name:'ChatGPT Pro (20x)', price:200, cur:'USD', quota:'20× Plus 用量；1M 上下文', tokensM:60, promo:'9-09 起暂停新订阅', tag:'Astra 算力紧张',
-   models:[{n:'GPT-6 Astra',r:2.5,tag:'新旗舰·GPT-6 Pro'},{n:'GPT-5.6 Sol',r:1},{n:'GPT-5.6 Sol Pro',r:2},{n:'GPT-5.3-Codex-Spark',r:0.5},{n:'GPT-5.6 Terra',r:0.5},{n:'GPT-5.6 Luna',r:0.25}],
+   models:[{n:'GPT-6 Astra',r:2.5,tag:'新旗舰·GPT-6 Pro'},{n:'GPT-6 Sol',r:0.5,tag:'09-22 新旗舰'},{n:'GPT-6 Luna',r:0.125},{n:'GPT-5.6 Sol',r:1},{n:'GPT-5.6 Sol Pro',r:2},{n:'GPT-5.3-Codex-Spark',r:0.5},{n:'GPT-5.6 Terra',r:0.5},{n:'GPT-5.6 Luna',r:0.25}],
    note:'面向研究与重度 Agent 用户；9-09 起暂停新用户订阅（存量续费不受影响，Astra 需求空前）'}
  ]},
 {id:'google', name:'Google', product:'Gemini · Antigravity · Jules', region:'intl', country:'美国', url:'https://one.google.com/about/ai-premium',
@@ -494,7 +494,7 @@ const companies = [
    note:'含 30TB 存储'}
  ]},
 {id:'xai', name:'xAI', product:'Grok', region:'intl', country:'美国', url:'https://x.ai/grok',
- desc:'订阅价高于同行（标准档 $30 vs 竞品 $20），但 API 单价处于全市场最低档；2026-06 起各档合并为单一「周用量池」跨 Chat/Imagine/Voice/Build 共享。Grok 4.6（8-12 发布，2T 参数，API $2/$6）已全量推送至 SuperGrok 及以上档位；Grok Bot 向 Heavy 档开放测试。',
+ desc:'订阅价高于同行（标准档 $30 vs 竞品 $20），但 API 单价处于全市场最低档；2026-06 起各档合并为单一「周用量池」跨 Chat/Imagine/Voice/Build 共享。Grok 4.6（8-12 发布，2T 参数，API $2/$6）已全量推送至 SuperGrok 及以上档位；Grok 4.7（9-21 发布，API $2/$6 与 4.6 同价同速，主打最强编码与知识工作，另有 2 倍速变体）发布，套餐推送进度待官方确认；Grok Bot 向 Heavy 档开放测试。',
  plans:[
   {name:'SuperGrok Lite', price:10, cur:'USD', quota:'入门限额；480p/6s 图像视频；1 个 AI Agent', tokensM:1.5,
    models:[{n:'Grok 4.3',r:0.5},{n:'Grok 4.1 Fast',r:0.15}],
@@ -767,7 +767,7 @@ const companies = [
 ];
 
 /* API 按量参考价（每百万 tokens：输入/输出；blend 按 输入:输出=3:1 混合）
-   2026-09-11 建立，2026-09-21 复核无变动：覆盖全部有公开 API 按量价的模型（官方牌价；订阅专属/工具类无牌价者不列）。
+   2026-09-11 建立，覆盖全部有公开 API 按量价的模型（官方牌价；订阅专属/工具类无牌价者不列）；2026-09-24 复核：新增 Claude Opus 5.5 / GPT-6 Sol / GPT-6 Luna / Grok 4.7 四条牌价（09-17~22 发布），其余无变动。
    价格口径：USD = 各厂国际站牌价；CNY = 国内站牌价（阿里/智谱/火山/腾讯等国内站） */
 const apiRefs = [
  /* Anthropic（官方 2026-09；缓存读取 = 基础输入价 × 0.1） */
@@ -776,11 +776,14 @@ const apiRefs = [
  {n:'Claude Sonnet 5',    i:2,    o:10,   c:0.2,   cur:'USD', tag:'新旗舰·Sonnet替代'},
  {n:'Claude Opus 4.6',    i:5,    o:25,   c:0.5,   cur:'USD', tag:'Legacy'},
  {n:'Claude Opus 4.8',    i:5,    o:25,   c:0.5,   cur:'USD', tag:'Legacy'},
- {n:'Claude Opus 5',      i:5,    o:25,   c:0.5,   cur:'USD', tag:'新旗舰·Opus替代'},
+  {n:'Claude Opus 5.5',    i:4,    o:20,   c:0.2,   cur:'USD', tag:'2026-09-17 上线·Claude 5.5 系列首个·Claude Code 默认 Opus·缓存较Opus5降60%'},
+  {n:'Claude Opus 5',      i:5,    o:25,   c:0.5,   cur:'USD', tag:'新旗舰·Opus替代'},
  {n:'Claude Fable 5',     i:10,   o:50,   c:1,     cur:'USD', tag:'Legacy'},
  {n:'Claude Fable 5.1',   i:10,   o:50,   c:1,     cur:'USD', tag:'Mythos 级旗舰'},
  /* OpenAI（2026-09 确认；缓存读取 = 基础输入价 × 0.1） */
- {n:'GPT-6 Astra',        i:10,   o:50,   c:1,     cur:'USD', tag:'2026-09-03 发布·新旗舰·订阅内名GPT-6 Pro'},
+  {n:'GPT-6 Astra',        i:10,   o:50,   c:1,     cur:'USD', tag:'2026-09-03 发布·新旗舰·订阅内名GPT-6 Pro'},
+  {n:'GPT-6 Sol',          i:2,    o:10,   c:0.2,   cur:'USD', tag:'2026-09-22 上线·较5.6 Sol降价50%'},
+  {n:'GPT-6 Luna',         i:0.1,  o:0.5,  c:0.01,  cur:'USD', tag:'2026-09-22 上线·较5.6 Luna降价50%'},
  {n:'GPT-5.6 Sol',        i:4,    o:20,   c:0.4,   cur:'USD', tag:'促销至2026-11-21'},
  {n:'GPT-5.6 Terra',      i:2,    o:12,   c:0.2,   cur:'USD'},
  {n:'GPT-5.6 Luna',       i:0.2,  o:1.2,  c:0.02,  cur:'USD'},
@@ -805,7 +808,8 @@ const apiRefs = [
  {n:'Gemini 3.5 Flash-Lite', i:0.3, o:2.5, c:0.075, cur:'USD'},
  {n:'Gemini Deep Think',  i:4,    o:24,   c:1,     cur:'USD', tag:'Ultra专属·无API牌价·参考'},
  /* xAI（2026-08；缓存读取约基础输入价 × 0.25） */
- {n:'Grok 4.6',           i:2,    o:6,    c:0.5,   cur:'USD', tag:'2026-08-12 发布·2T参数'},
+  {n:'Grok 4.7',           i:2,    o:6,    c:0.5,   cur:'USD', tag:'2026-09-21 发布·与4.6同价同速·最强编码定位'},
+  {n:'Grok 4.6',           i:2,    o:6,    c:0.5,   cur:'USD', tag:'2026-08-12 发布·2T参数'},
  {n:'Grok 4.5',           i:2,    o:6,    c:0.5,   cur:'USD'},
  {n:'Grok 4.3',           i:1.25, o:2.5,  c:0.31,  cur:'USD'},
  {n:'Grok 4.1 Fast',      i:0.2,  o:0.5,  c:0.05,  cur:'USD'},
@@ -899,24 +903,26 @@ companies.forEach(c => c.plans.forEach(p => {
   allPlans.push(Object.assign({company:c, region:c.region}, p));
 }));
 
-/* ==================== AIHOT 模型共识分（来源：aihot.virxact.com/leaderboard，2026-09-21） ====================
-   TOP30 分数按 09-21 榜单刷新（评测池缩容 21→18 项重排：头部 Fable/Astra +0.3~+0.8，中尾部 -0.4~-3.9，GPT-5.4 +2.8）。
-   榜外模型沿用上期分数（Qwen3.8 Flash Next 本期跌出 TOP30，沿用 70.4；Qwen 3.8 27B 新进榜 #29 取 41.7）。
-   'Qwen3.8-Max' 取榜单 0902 刷新版分数（套餐模型即 0902 版）；原版 Qwen3.8 Max（07-19）09-16 起在榜（本期 84.1 第 7），仅 API 在售未入套餐，故不设键。
+/* ==================== AIHOT 模型共识分（来源：aihot.virxact.com/leaderboard，2026-09-24） ====================
+   TOP30 分数按 09-24 榜单刷新（评测池扩容 18→20 项/9 家机构：新科榜首 Claude Opus 5.5（09-17 上线，8 项评测）94.3，Astra/Fable 5.1 并列 94.2）。
+   本期新进 TOP30：Claude Opus 5.5 #1（94.3）、GPT-6 Sol #7（89.3，09-22 上线）、Grok 4.7 #9（85.7，09-21 发布）、GPT-6 Luna #29（52.1，09-22 上线）、Qwen3.8 Flash Next 回榜 #20（70.0）。
+   'Qwen3.8-Max' 取榜单 0902 刷新版分数（套餐模型即 0902 版）；原版 Qwen3.8 Max（07-19）本期 84.2 第 10，仅 API 在售未入套餐，故不设键。
+   跌出 TOP30 的模型沿用上期分数：DeepSeek-V4-Flash 47.4、Gemini 3.6 Flash 46.4、Muse Spark 1.1 44.6、GLM-5.2 42.9、Qwen 3.8 27B 41.7（Gemini 3.5 Flash 41.4 无套餐引用不设键）。
    GLM-5.3-Flash 双写连字符/空格两种键名，兼容套餐数据两种写法。 */
 const modelScores = {
-  'Claude Fable 5.1':93.9,'Claude Fable 5':93.6,'GPT-6 Astra':93.5,'Claude Opus 5':92.0,
-  'Muse Spark 1.3':89.5,'GPT-5.6 Sol':87.6,'GLM-5.3':81.2,'Grok 4.6':79.5,
-  'Kimi K3':78.1,'kimi-k3':78.1,'GPT-5.6 Terra':75.6,'Claude Opus 4.8':74.0,
-  'Gemini 3.8 Flash':73.0,'Gemini Deep Think':86.4,'GPT-5.6 Sol Pro':83.7,
+  'Claude Opus 5.5':94.3,'GPT-6 Astra':94.2,'Claude Fable 5.1':94.2,'Claude Fable 5':93.8,
+  'Claude Opus 5':93.7,'Muse Spark 1.3':91.4,'GPT-6 Sol':89.3,'GPT-5.6 Sol':87.5,
+  'Grok 4.7':85.7,'GLM-5.3':81.2,'Grok 4.6':79.4,
+  'Kimi K3':78.4,'kimi-k3':78.4,'GPT-5.6 Terra':75.9,'Claude Opus 4.8':74.3,
+  'Gemini 3.8 Flash':73.7,'Gemini Deep Think':86.4,'GPT-5.6 Sol Pro':83.7,
   'Grok 4 Heavy':74.7,'Qwen3.8-Flash':65.8,
-  'Qwen3.8-Max':73.0,'GLM-5.3-Flash':72.7,'GLM-5.3 Flash':72.7,
-  'Claude Opus 4.7':71.8,'Qwen3.8 Flash Next':70.4,'Muse Spark 1.2':69.5,
-  'DeepSeek V4.1 Flash':67.0,'DeepSeek-V4.1-Flash':67.0,
-  'Gemini 3.7 Flash':65.5,'GPT-5.4':62.7,'Grok 4.5':60.0,'GPT-5.5':59.8,
+  'Qwen3.8-Max':73.2,'GLM-5.3-Flash':72.6,'GLM-5.3 Flash':72.6,
+  'Claude Opus 4.7':71.7,'Qwen3.8 Flash Next':70.0,'Muse Spark 1.2':68.6,
+  'DeepSeek V4.1 Flash':66.3,'DeepSeek-V4.1-Flash':66.3,
+  'Gemini 3.7 Flash':65.2,'GPT-5.4':62.2,'Grok 4.5':60.0,'GPT-5.5':59.9,
   'GPT-5.3-Codex-Spark':57.2,'GPT-5.3-Codex':57.2,
-  'Claude Sonnet 5':55.2,'GPT-5.6 Luna':52.6,
-  'DeepSeek-V4-Pro':51.8,'DeepSeek-V4-Flash':47.4,'Gemini 3.6 Flash':46.4,'Muse Spark 1.1':44.6,
+  'Claude Sonnet 5':55.4,'GPT-5.6 Luna':52.7,'GPT-6 Luna':52.1,
+  'DeepSeek-V4-Pro':51.2,'DeepSeek-V4-Flash':47.4,'Gemini 3.6 Flash':46.4,'Muse Spark 1.1':44.6,
   'GLM-5.2':42.9,'glm-5.2':42.9,'Gemini 3.1 Pro':42.0,
   'GLM-5':46.6,'GLM-5-Turbo':63.4,'GLM-5.1':46.6,'GLM-4.7':34.8,
   'qwen3.7-plus':34.8,'qwen3.7-max':34.8,'qwen3.6-plus':34.8,
@@ -1149,7 +1155,7 @@ function renderCompany(c){
 }
 /* 强模型集合：名称命中或消耗倍率≥1.5 视为"强模型"，在套餐卡片中前置展示 */
 const strongModels = new Set([
-  'GPT-6 Astra','Claude Opus 5','Claude Fable 5.1','Claude Sonnet 5',
+  'GPT-6 Astra','Claude Opus 5.5','GPT-6 Sol','Claude Opus 5','Claude Fable 5.1','Claude Sonnet 5',
   'Claude Opus 4.8','Claude Fable 5','Claude Opus 4.6',
   'GPT-5.6 Sol Pro','Gemini Deep Think','Grok 4 Heavy',
   'Grok 4.6','Gemini 3.8 Flash','Doubao-Seed-Evolving',
