@@ -20,7 +20,7 @@
 | 6 | 百度千帆 | Coding Plan / Token 福利包 / TPM 保障包 | qianfan.cloud.baidu.com | cloud.baidu.com/product/codingplan.html | cloud.baidu.com/doc/qianfan |
 | 7 | 月之暗面 Kimi | Kimi 会员（含 Coding 额度）/ Kimi Code | kimi.com / moonshot.cn | kimi.com/membership/pricing | platform.kimi.com/docs |
 | 8 | 无问芯穹 Infini-AI | Infini Coding Plan | cloud.infini-ai.com | platform 页面 | docs.infini-ai.com |
-| 9 | 小米 MiMo | Token Plan（Lite/Standard/Pro/Max） | mimo.mi.com | platform.xiaomimimo.com/token-plan | mimo.mi.com/docs/price/token-plan |
+| 9 | 小米 MiMo | Token Plan（个人 Lite/Standard/Pro/Max + 团队版三档） | mimo.mi.com | platform.xiaomimimo.com/token-plan | mimo.mi.com/docs/price/token-plan |
 | 10 | （观察） | 移动云 / 天翼云 / 快手 KwaiKAT / 超算互联网 / 优刻得 | — | — | — |
 
 > 注：腾讯云 **CodeBuddy（IDE 插件，Free/Pro/Team/企业版）** 与 **WorkBuddy（桌面智能体）** 与 Token Plan 是不同的产品线，报告里已拆开，需分别核对。
@@ -146,6 +146,8 @@
 
 - **通用 Token Plan 个人版**：Lite ¥39（3500 万 tokens/月）、Standard ¥99（1 亿）、Pro ¥299（3.2 亿）、Max ¥599（6.5 亿）
 - **Hy Token Plan 个人版**（混元自研，更便宜）：Lite ¥28 / Standard ¥78 / Pro ¥238 / Max ¥468
+- **2026-09 模型更新**：Hy4 preview（770B 总参、激活 49B，Agent/Coding/生产力强化）上线并进入 Hy Token Plan 各档；API 牌价 ¥6/¥18（缓存 ¥0.3）
+- **9 月限时系数活动（9-01~9-30）**：通用 Token Plan 个人版调用 Auto / Kimi K2.7 Code / MiniMax-M3 享刊例价 5 折、GLM-5.3 最高 8.5 折
 - 统一规则：缓存命中/未命中/输出 Token 一律从套餐统一抵扣；不结转、不支持降配/退款；个人版仅 1 个 API Key
 - 企业版：积分池制（100 积分=1 元），月预算 1000-20000 元，按模型单价实时扣减
 
@@ -233,13 +235,14 @@
 
 ### 计价方式（重点）
 
-- **Token Plan**：统一 **Credit 积分制**（按 Token 用量换算 Credit 消耗），四档月付 Lite ¥39 / Standard ¥99 / Pro ¥329 / Max ¥659（2026-05-26 升级后全档位 Credits 额度提升 5-8 倍，价格不变）
+- **Token Plan**：统一 **Credit 积分制**（按 Token 用量换算 Credit 消耗），个人版四档月付 Lite ¥39 / Standard ¥99 / Pro ¥329 / Max ¥659（2026-05-26 升级后全档位 Credits 额度提升 5-8 倍，价格不变）；**2026-09-21 新增团队版三档**（Standard ¥99 / Pro ¥329 / Max ¥659 每坐席，年付 ¥1,044 / ¥3,468 / ¥6,948 每席，额度与个人版同档相同）
   - 快照（升级后）：Lite 4.1B / Standard 11B / Pro 38B / Max 82B Credits/月；包年 ≈ 月付×12 再 88 折
-- **消耗倍率**：mimo-v2.5 按 1×、mimo-v2.5-pro 按 2×（超长上下文按 4×）；夜间（0:00-8:00 UTC+8）0.8× 消耗
+- **模型代际（2026-09-21 更新）**：V2.6 系列（v2.6-pro / v2.6-flash / v2.6-pro-ultraspeed）进入 Token Plan，Credits 折算与 V2.5 完全同价；**V2.5 系（mimo-v2.5-pro / mimo-v2.5）将于 2026-10-21 10:00 下线**
+- **消耗倍率**：mimo-v2.6-flash / mimo-v2.5 按 1×、mimo-v2.6-pro / mimo-v2.5-pro 按 2×（超长上下文按 4×）；夜间（0:00-8:00 UTC+8）0.8× 消耗
 - **无 5 小时/周限额**：支持集中消耗，不做滚动窗口限流（区别于大多数竞品）
-- 支持模型：mimo-v2.5-pro / mimo-v2.5 / mimo-v2.5-asr / mimo-v2.5-tts（TTS 限时免费）等
-- 优惠：首购 88 折、连续包年 88 折、新模型优先内测
-- API 按量参考价（模型参考价用）：mimo-v2.5-pro 输入 $0.435/输出 $0.87 每百万 tokens（官网 API 文档）
+- 支持模型：mimo-v2.6-pro / mimo-v2.6-flash（个人版仍可调 v2.5-pro / v2.5 至 10-21 下线）/ mimo-v2.5-asr / mimo-v2.5-tts（TTS 限时免费）等
+- 优惠：首购 88 折（仅个人版）、连续包年 88 折、夜间 0.8×、新模型优先内测
+- API 按量参考价（模型参考价用）：mimo-v2.6-pro / mimo-v2.5-pro 输入 ¥3 / 输出 ¥6 每百万 tokens（缓存命中输入 ¥0.025）；mimo-v2.6-flash / mimo-v2.5 输入 ¥1 / 输出 ¥2；mimo-v2.6-pro-ultraspeed ¥30/¥60（缓存 ¥0.25，API 专属、不支持批量）
 
 ### 资源获取方式
 
