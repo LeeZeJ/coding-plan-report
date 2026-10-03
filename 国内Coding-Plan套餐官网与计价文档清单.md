@@ -147,7 +147,7 @@
 - **通用 Token Plan 个人版**：Lite ¥39（3500 万 tokens/月）、Standard ¥99（1 亿）、Pro ¥299（3.2 亿）、Max ¥599（6.5 亿）
 - **Hy Token Plan 个人版**（混元自研，更便宜）：Lite ¥28 / Standard ¥78 / Pro ¥238 / Max ¥468
 - **2026-09 模型更新**：Hy4 preview（770B 总参、激活 49B，Agent/Coding/生产力强化）上线并进入 Hy Token Plan 各档；API 牌价 ¥6/¥18（缓存 ¥0.3）
-- **9 月限时系数活动（9-01~9-30）**：通用 Token Plan 个人版调用 Auto / Kimi K2.7 Code / MiniMax-M3 享刊例价 5 折、GLM-5.3 最高 8.5 折
+- **9 月限时系数活动（9-01~9-30）已结束**：期间通用 Token Plan 个人版调用 Auto / Kimi K2.7 Code / MiniMax-M3 享刊例价 5 折、GLM-5.3 最高 8.5 折；10 月暂无新活动公告（2026-10-03 核对）
 - 统一规则：缓存命中/未命中/输出 Token 一律从套餐统一抵扣；不结转、不支持降配/退款；个人版仅 1 个 API Key
 - 企业版：积分池制（100 积分=1 元），月预算 1000-20000 元，按模型单价实时扣减
 

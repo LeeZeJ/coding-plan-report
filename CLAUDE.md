@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 18 vendors — 10 intl + 8 cn — and 82 paid subscription tiers; figures auto-derive in the UI, re-check here only when adding data):
+This repository contains one self-contained HTML report (a client-side dashboard that compares global AI Coding Plan / Token Plan pricing across 18 vendors — 10 intl + 8 cn — and 83 paid subscription tiers; figures auto-derive in the UI, re-check here only when adding data):
 
 - **`coding-plan-report.html`** — the single merged report. It supports **light/dark theme switching** via an AIHOT-style segmented slider in the sidebar「外观」(深色 / 跟随系统 / 浅色), implemented the same way as the AIHOT site (`aihot.virxact.com`): `<html data-theme="light|dark">` + two sets of CSS variables + `localStorage['aihot-theme']`, default `auto` follows `prefers-color-scheme`. Verified working in a real browser (chrome-devtools-mcp): clicking each option flips `data-theme`/body background and slides the `.theme-toggle-thumb`; the choice survives reload (head script applies it before paint).
 
@@ -35,7 +35,7 @@ There are no build, lint, or test scripts. Useful operations:
   - Each plan has `price`, `cur` (`'CNY'` | `'USD'`), `tokensM` (estimated monthly tokens in millions), `models[]`, plus optional `promo`, `annual`, `tag`, and `payg`.
   - Each model entry is `{ n: name, r: consumptionRate, tag? }`.
   - `apiRefs[]` stores API pay-as-you-go reference prices for the model-query tab.
-  - Key model families (as of 2026-09-29): Anthropic Opus 5.5 (09-17) / Sonnet 5.5 (09-28) / Sonnet 5 (Legacy) / Fable 5.1; OpenAI GPT-6 Astra (new flagship, 09-03; $200 Pro 20x reopened 09-30 with adjusted usage accounting) / GPT-6 Sol / Luna (09-22) / GPT-5.6 Sol / Terra / Luna; Google Gemini 3.8 Flash (09-02 GA) / 3.1 Pro / Deep Think; xAI Grok 4.7 (09-21) / 4.6 / 4 Heavy; 智谱 GLM-5.3 / 5.2; 阿里 Qwen3.8-Max (0902); 火山 Doubao-Seed-Evolving / Doubao-Seed-2.0-Code; Kimi K3; MiniMax-M3; DeepSeek-V4.1-Flash (09-10) / V4-Pro; 小米 MiMo-V2.6-Pro (09-21, entered Token Plan; V2.5 series retires 10-21; new 团队版 3 tiers).
+  - Key model families (as of 2026-10-03): Anthropic Opus 5.5 (09-17) / Sonnet 5.5 (09-28) / Sonnet 5 (Legacy) / Fable 5.1; OpenAI GPT-6 Astra (new flagship, 09-03) / GPT-6.1 Sol (09-29 DevDay, replaces GPT-6 Sol; API $2/$10 with halved cache price) / GPT-6 Sol / Luna (09-22) / GPT-5.6 Sol / Terra / Luna; OpenAI Pro split into three tiers (Pro 100 5x / Pro 200 10x — new subscriptions got a lowered allowance, reported 20x→10x — / Pro 500 25x with Astra Ultrafast exclusive); Google Gemini 3.8 Flash (09-02 GA) / 3.1 Pro / Deep Think / Gemini 4 Argon (10-01, Fairwind program, not in subscriptions); xAI Grok 4.7 (09-21) / 4.6 / 4 Heavy; 智谱 GLM-5.3 / 5.2; 阿里 Qwen3.8-Max (0902); 火山 Doubao-Seed-Evolving / Doubao-Seed-2.0-Code; Kimi K3; MiniMax-M3; DeepSeek-V4.1-Flash (09-10) / V4-Pro; 小米 MiMo-V2.6-Pro (09-21, entered Token Plan; V2.5 series retires 10-21; new 团队版 3 tiers).
 - **Core calculations**:
   - `FX = 7.1` fixed USD→CNY rate.
   - `planPriceCNY(p)` normalizes plan price to CNY.

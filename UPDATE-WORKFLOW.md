@@ -1,7 +1,7 @@
 # 数据更新流程
 
-> 最后更新：2026-09-29
-> 适用版本：v2026-09（18 厂商 / 82 档 / 88 模型）
+> 最后更新：2026-10-03
+> 适用版本：v2026-10（18 厂商 / 83 档 / 89 模型）
 
 ## 更新频率
 
@@ -101,7 +101,7 @@
 | 厂商 | 追踪模型 | 备注 |
 |------|---------|------|
 | Anthropic | Claude Opus 5, Sonnet 5, Fable 5.1, Haiku 4.5 | Opus 5 为最强旗舰 |
-| OpenAI | GPT-6 Astra（订阅内名 GPT-6 Pro）, GPT-5.6 Sol/Sol Pro/Terra/Luna/Cyber | Astra 2026-09-03 发布；$200 档 Pro 9-09 起暂停新订阅 |
+| OpenAI | GPT-6.1 Sol（09-29 DevDay，接替 GPT-6 Sol）, GPT-6 Astra（订阅内名 GPT-6 Pro；Ultrafast 仅 Pro 500）, GPT-5.6 Sol/Sol Pro/Terra/Luna | Pro 拆三档 Pro 100/200/500（10-03 起报告采用），Pro 200 新订阅额度下调（据报 20x→10x）；GPT-6.1 完整版取消发布 |
 | Google | Gemini 3.8 Flash, 3.1 Pro, Deep Think, 3.7/3.6 Flash | 3.8 Flash 09-02 GA；Pro 级旗舰仍为 3.1 Pro |
 | xAI | Grok 4.6, 4.5, 4 Heavy, 4.3 | 4.6（2T 参数）已于 8-12 全量推送 |
 | Cursor | Claude Sonnet 4.6, Opus 4.6, GPT-5.4, Gemini 3 Pro | 随上游模型更新 |
