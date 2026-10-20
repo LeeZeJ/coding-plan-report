@@ -15,7 +15,7 @@
 | 1 | 智谱 AI | GLM Coding Plan（个人/团队）+ 龙虾套餐 | bigmodel.cn | bigmodel.cn/glm-coding | docs.bigmodel.cn/cn/coding-plan |
 | 2 | 阿里云百炼 | Coding Plan / Token Plan（个人/企业版） | aliyun.com | aliyun.com/benefit/scene/tokenplan | help.aliyun.com 模型计费 |
 | 3 | 火山引擎方舟 | Coding Plan / Agent Plan | volcengine.com | volcengine.com/activity/codingplan | volcengine.com/docs/82379 |
-| 4 | MiniMax | Token Plan（Plus/Max/Ultra） | platform.minimaxi.com | /subscribe/token-plan | /docs/guides/pricing-* |
+| 4 | MiniMax | M Plan（Go/Explore/Build） | platform.minimaxi.com | /subscribe/token-plan | /docs/guides/pricing-* |
 | 5 | 腾讯云 | Token Plan 个人版（通用/Hy）+ 企业版 + CodeBuddy | cloud.tencent.com | /act/pro/tokenplan | /document/product/1823 |
 | 6 | 百度千帆 | Coding Plan / Token 福利包 / TPM 保障包 | qianfan.cloud.baidu.com | cloud.baidu.com/product/codingplan.html | cloud.baidu.com/doc/qianfan |
 | 7 | 月之暗面 Kimi | Kimi 会员（含 Coding 额度）/ Kimi Code | kimi.com / moonshot.cn | kimi.com/membership/pricing | platform.kimi.com/docs |
@@ -119,9 +119,9 @@
 
 ### 计价方式（重点）
 
-- **Token Plan**：三档 Plus ¥49 / Max ¥119 / Ultra ¥469（2026-03 升级后额度暴涨 4.5-6 倍，底层 M2.5/M2.1 → M3/M2.7）；月度 M3 用量约 6 亿/18 亿/55 亿 token
+- **M Plan（原 Token Plan，2026-10-19 改名）**：三档 Go ¥49 / Explore ¥119 / Build ¥469；年付送 2 个月（约 83 折）；首月 5 折已于 10-14 结束。全档支持 M3 与 M3.1 Flash（10-19 发布，API ¥1/¥4、缓存 ¥0.1），Explore/Build 另含 H3 全模态额度
 - 额度窗口：5 小时滚动 + 每周窗口；文本/图像/语音/音乐共享同一额度池；支持购买积分（¥30=4285 积分起）溢出兜底
-- API 按量：M3 输入 ¥2.10（≤512k，五折后）/输出 ¥8.40/百万 tokens，缓存读取 ¥0.42；M2.7 输入 ¥2.1/输出 ¥8.4
+- API 按量：M3 输入 ¥2.10（≤512k，五折后）/输出 ¥8.40/百万 tokens，缓存读取 ¥0.42；M3.1 Flash 输入 ¥1/输出 ¥4、缓存 ¥0.1；M2.7 输入 ¥2.1/输出 ¥8.4
 
 ### 资源获取方式
 
@@ -147,7 +147,7 @@
 - **通用 Token Plan 个人版**：Lite ¥39（3500 万 tokens/月）、Standard ¥99（1 亿）、Pro ¥299（3.2 亿）、Max ¥599（6.5 亿）
 - **Hy Token Plan 个人版**（混元自研，更便宜）：Lite ¥28 / Standard ¥78 / Pro ¥238 / Max ¥468
 - **2026-09 模型更新**：Hy4 preview（770B 总参、激活 49B，Agent/Coding/生产力强化）上线并进入 Hy Token Plan 各档；API 牌价 ¥6/¥18（缓存 ¥0.3）
-- **9 月限时系数活动（9-01~9-30）已结束**：期间通用 Token Plan 个人版调用 Auto / Kimi K2.7 Code / MiniMax-M3 享刊例价 5 折、GLM-5.3 最高 8.5 折；10 月暂无新活动公告（2026-10-12 核对）
+- **9 月限时系数活动（9-01~9-30）已结束**：期间通用 Token Plan 个人版调用 Auto / Kimi K2.7 Code / MiniMax-M3 享刊例价 5 折、GLM-5.3 最高 8.5 折；10 月暂无新活动公告（2026-10-20 核对）
 - 统一规则：缓存命中/未命中/输出 Token 一律从套餐统一抵扣；不结转、不支持降配/退款；个人版仅 1 个 API Key
 - 企业版：积分池制（100 积分=1 元），月预算 1000-20000 元，按模型单价实时扣减
 
@@ -171,6 +171,7 @@
 ### 计价方式（重点）
 
 - **Coding Plan**：按请求次数，Lite ¥40/月（1.8 万次/月）、Pro ¥200/月（9 万次/月）；5 小时 1,200/6,000 次、周 9,000/45,000 次
+- **Token Plan 个人版（2026-10 调整）**：Mini ¥9.9 / Lite ¥40 / Pro ¥200 / Max ¥600，首购五折（¥4.9 / ¥19.9 / ¥99.9 / ¥299.9）；10 月起接入 DeepSeek-V4.1-Flash 与 GLM-5.3
 - **Token 福利包**：积分制，50,000-800,000 积分 5 档（¥50-¥800，首购 9 折），按「每千 token 消耗积分」换算（如 DeepSeek-V4-Pro 输入 12 积分/千 token）
 - **TPM 保障包**：按并发/吞吐保障计费（企业向）
 
@@ -178,7 +179,7 @@
 
 1. **文档抓取**：cloud.baidu.com/doc 文档页可直接 curl，HTML 含完整表格（Token 福利包的积分表非常适合程序解析）。
 2. **订阅页**：cloud.baidu.com/product/codingplan.html 动态渲染 + 新用户秒杀（首购 7.9/39.9 元），人工核对。
-3. **人工核对要点**：Coding Plan 与 Token 福利包是两套计量体系（次 vs 积分）；Token Plan 个人版（2026-07-13 新发布，Mini/Lite/Pro/Max 四档 ¥9.97-¥600）是否替代 Coding Plan 需持续观察。
+3. **人工核对要点**：Coding Plan 与 Token 福利包是两套计量体系（次 vs 积分）；Token Plan 个人版（Mini/Lite/Pro/Max 四档 ¥9.9-¥600，2026-10 调价）是否替代 Coding Plan 需持续观察。
 
 ---
 
@@ -193,7 +194,7 @@
 
 ### 计价方式（重点）
 
-- Kimi 的 Coding 是**会员体系内的权益**（不是独立 Coding Plan）：连续包月 Andante ¥39（原价 ¥49）/ Moderato ¥79（¥99）/ Allegretto ¥159（¥199）/ Allegro ¥559（¥699）；包年 ¥468-¥6708；仅支持 Kimi 自家模型（K2.5/K2.6/K3）
+- Kimi 的 Coding 是**会员体系内的权益**（不是独立 Coding Plan）：2026-09/10 改版为 Plus ¥99 / Pro ¥199 / Max ¥699（年付合 ¥79 / ¥159 / ¥559 每月）；Go ¥49 不含 Kimi Code；Plus 及以上含 K3 与 Kimi Code 额度，仅支持 Kimi 自家模型（K2.5/K2.6/K3）
 - API 按量：K3 输入 ¥20/输出 ¥100/百万 tokens（缓存命中 ¥2）；K2.7 Code 输入 ¥6.5/输出 ¥27
 - 国际版（membership/pricing?lang=en）价格不同，报告中已单列「Moonshot AI（国际版）」——国外暂不处理，但注意**别把国际版价格混进国内版**
 
@@ -237,7 +238,7 @@
 
 - **Token Plan**：统一 **Credit 积分制**（按 Token 用量换算 Credit 消耗），个人版四档月付 Lite ¥39 / Standard ¥99 / Pro ¥329 / Max ¥659（2026-05-26 升级后全档位 Credits 额度提升 5-8 倍，价格不变）；**2026-09-21 新增团队版三档**（Standard ¥99 / Pro ¥329 / Max ¥659 每坐席，年付 ¥1,044 / ¥3,468 / ¥6,948 每席，额度与个人版同档相同）
   - 快照（升级后）：Lite 4.1B / Standard 11B / Pro 38B / Max 82B Credits/月；包年 ≈ 月付×12 再 88 折
-- **模型代际（2026-09-21 更新）**：V2.6 系列（v2.6-pro / v2.6-flash / v2.6-pro-ultraspeed）进入 Token Plan，Credits 折算与 V2.5 完全同价；**V2.5 系（mimo-v2.5-pro / mimo-v2.5）将于 2026-10-21 10:00 下线**
+- **模型代际（2026-10-20 更新）**：V2.6 系列（v2.6-pro / v2.6-flash / v2.6-pro-ultraspeed）为 Token Plan 主力；**V2.5 系（mimo-v2.5-pro / mimo-v2.5）于 2026-10-21 10:00 下线**；MiMo Claw ¥14.9 档改用 V2.6 Flash 计费
 - **消耗倍率**：mimo-v2.6-flash / mimo-v2.5 按 1×、mimo-v2.6-pro / mimo-v2.5-pro 按 2×（超长上下文按 4×）；夜间（0:00-8:00 UTC+8）0.8× 消耗
 - **无 5 小时/周限额**：支持集中消耗，不做滚动窗口限流（区别于大多数竞品）
 - 支持模型：mimo-v2.6-pro / mimo-v2.6-flash（个人版仍可调 v2.5-pro / v2.5 至 10-21 下线）/ mimo-v2.5-asr / mimo-v2.5-tts（TTS 限时免费）等

@@ -1,7 +1,7 @@
 # 数据更新流程
 
-> 最后更新：2026-10-12
-> 适用版本：v2026-10（18 厂商 / 83 档；10-07 起含 Claude Haiku 5.5）
+> 最后更新：2026-10-20
+> 适用版本：v2026-10-20（18 厂商 / 80 档；含 MiniMax M Plan、xAI X Subscription、Kimi 新档、Gemini 4 Argon）
 
 ## 更新频率
 
@@ -19,7 +19,7 @@
 | 1 | **Anthropic** | anthropic.com/pricing | anthropic.com/pricing（底部 API 区域） | Pro/Max 月价；新模型（Opus/Sonnet/Fable 系列）；API 输入/输出/缓存价 |
 | 2 | **OpenAI** | openai.com/chatgpt/pricing | platform.openai.com/docs/pricing | Go/Plus/Pro 月价；GPT-5.6 系列 API 价；Cyber/Sol Pro 等新模型；o 系列状态 |
 | 3 | **Google** | one.google.com/about/ai-premium | ai.google.dev/pricing | AI Plus/Pro/Ultra 月价；Gemini 新版本；附赠权益变化 |
-| 4 | **xAI** | x.ai/grok | x.ai/api/pricing | SuperGrok 各档月价；Grok 新版本；Heavy 专属模型 |
+| 4 | **xAI** | x.ai/grok | x.ai/api/pricing | X Subscription Plus / Premium / Super / Ultra 月价；Grok 新版本；Heavy 专属模型 |
 | 5 | **Cursor** | cursor.com/pricing | — | Pro/Pro+/Ultra 月价；Teams 价格；新增产品线（Grok/Bugbot/Cloud Agents） |
 | 6 | **GitHub Copilot** | github.com/features/copilot | docs.github.com/en/copilot | Pro/Pro+/Max/Pro+ 月价和 AI Credits 额度；新增模型 |
 | 7 | **Windsurf→Devin** | windsurf.com/pricing → app.devin.ai/pricing | — | 品牌整合状态；Pro/Max 月价；定价结构变化 |

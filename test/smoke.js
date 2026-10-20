@@ -168,12 +168,12 @@ assert(S.modelVendor('Auto 调度')==='腾讯', '腾讯 CodeBuddy「Auto 调度�
 assert(S.modelVendor('Auto 智能调度')==='字节', '火山方舟「Auto 智能调度」应归入字节分组');
 assert(S.modelVendor('Doubao-Seed-2.0-Code')==='字节', 'Doubao 系仍应归入字节分组');
 
-/* ---------- 断言 5c：MiniMax Ultra-极速 年付字段回归（补数据防复发） ---------- */
-const ultra = S.allPlans.find(p=>p.company.id==='minimax' && p.name==='MiniMax Ultra-极速');
-assert(!!ultra, '未找到 MiniMax Ultra-极速（可能改了名字）');
-assert(ultra.annualMonthly === 749.2, 'Ultra-极速 annualMonthly 应为 749.2（8990/12 月均），实际 ' + ultra.annualMonthly);
-assert(typeof ultra.annual === 'string' && ultra.annual.indexOf('8,990')>=0, 'Ultra-极速 annual 应含年付总额 8,990');
-assert(ultra.quota.indexOf('年付')<0, 'Ultra-极速 quota 不应再混入年付信息（已挪至 annual 字段）');
+/* ---------- 断言 5c：MiniMax M Plan Build 年付字段回归（补数据防复发） ---------- */
+const ultra = S.allPlans.find(p=>p.company.id==='minimax' && p.name==='M Plan Build');
+assert(!!ultra, '未找到 M Plan Build（可能改了名字）');
+assert(ultra.annualMonthly === 390.83, 'M Plan Build annualMonthly 应为 390.83（4690/12 月均），实际 ' + ultra.annualMonthly);
+assert(typeof ultra.annual === 'string' && ultra.annual.indexOf('4,690')>=0, 'M Plan Build annual 应含年付总额 4,690');
+assert(ultra.quota.indexOf('年付')<0, 'M Plan Build quota 不应再混入年付信息（已挪至 annual 字段）');
 
 /* ---------- 断言 5d：免费模型（r=0）在模型查询页的计数口径 ----------
    SWE-1.5 在 Windsurf Pro/Max 中免费（r=0），不得渲染成「共 0 个订阅套餐支持」的矛盾文案 */
