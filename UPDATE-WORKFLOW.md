@@ -1,7 +1,7 @@
 # 数据更新流程
 
-> 最后更新：2026-10-20
-> 适用版本：v2026-10-20（18 厂商 / 80 档；含 MiniMax M Plan、xAI X Subscription、Kimi 新档、Gemini 4 Argon）
+> 最后更新：2026-10-26
+> 适用版本：v2026-10-26（18 厂商 / 80 档；含 Kimi K3.1 Pro、小米 V2.5 系退场、AIHOT 10-26 快照）
 
 ## 更新频率
 
@@ -23,7 +23,7 @@
 | 5 | **Cursor** | cursor.com/pricing | — | Pro/Pro+/Ultra 月价；Teams 价格；新增产品线（Grok/Bugbot/Cloud Agents） |
 | 6 | **GitHub Copilot** | github.com/features/copilot | docs.github.com/en/copilot | Pro/Pro+/Max/Pro+ 月价和 AI Credits 额度；新增模型 |
 | 7 | **Windsurf→Devin** | windsurf.com/pricing → app.devin.ai/pricing | — | 品牌整合状态；Pro/Max 月价；定价结构变化 |
-| 8 | **Moonshot 国际版** | kimi.com/me/pricing?lang=en | platform.kimi.com | Moderato/Allegretto/Allegro/Vivace 月价；K3 可用性 |
+| 8 | **Moonshot 国际版** | kimi.com/me/pricing?lang=en | platform.kimi.com | Moderato/Allegretto/Allegro/Vivace 月价；K3.1 Pro 可用性与 API 牌价公示；K2 系退场节奏 |
 | 9 | **OpenCode→Crush** | opencode.ai/pricing | — | Go/Zen 月价和额度上限；模型清单变化；品牌转型进展 |
 | 10 | **Command Code** | commandcode.ai/pricing | — | Go/GOAT/Pro/Max 月价和信用额度；新增模型；taste-1 更新 |
 
@@ -37,7 +37,7 @@
 | 14 | **MiniMax** | platform.minimaxi.com/subscribe/token-plan | platform.minimaxi.com/docs/guides/pricing-token-plan | Starter/Plus/Max/极速 月价；Ultra 价格；M3/M2.7 新版本；积分包价格 |
 | 15 | **腾讯云** | cloud.tencent.com/act/pro/tokenplan | cloud.tencent.com/document/product/1823/130060 | 通用 Token Plan 四档价格和积分；Hy Token Plan 四档价格；模型列表变化（下线/上线）；积分抵扣系数表 |
 | 16 | **百度千帆** | cloud.baidu.com/product/codingplan.html | cloud.baidu.com/doc/qianfan-docs/s/Jm8r1826a + /doc/qianfan/s/Smoghsq3g | Token 福利包价格；Token Plan 个人版（Mini/Lite/Pro/Max）；Coding Plan 状态；ERNIE 新版本 |
-| 17 | **Kimi 国内版** | kimi.com/membership/pricing | platform.kimi.com/docs/pricing/chat-v1 | 会员连续包月/包年价格；Coding Plan 入门/中档/高档价格；K3 可用档位 |
+| 17 | **Kimi 国内版** | kimi.com/membership/pricing | platform.kimi.com/docs/pricing/chat-v1 | 会员连续包月/包年价格；Coding Plan 入门/中档/高档价格；K3.1 Pro 可用档位；K2 系退场节奏 |
 | 18 | **小米 MiMo** | mimo.mi.com/docs/zh-CN/price/token-plan | 同左 | Lite/Standard/Pro/Max 月价和 Credits；MiMo Claw 价格；V2.5-Pro-UltraSpeed 状态；夜间折扣规则 |
 
 ### 模型评分来源
@@ -112,8 +112,8 @@
 | MiniMax | MiniMax-M3, M2.7, highspeed 系列 | M3 为最新 |
 | 腾讯 | 混元 HY (Hy3), GLM-5.2, Kimi K3, MiniMax-M3 | K3 高消耗 |
 | 百度 | ERNIE 5.1, 5.0 | 5.1 为旗舰 |
-| Kimi | Kimi K3, K2.7 Code, K2.6 | K3 为最强（9-08 上线视觉理解版） |
-| 小米 | MiMo-V2.5-Pro, V2.5 | 9-08 开放 MiMo-X-Pro/Flash-Preview（V3 系列）邀测 |
+| Kimi | Kimi K3.1 Pro, K3, K2.7 Code, K2.6 | K3.1 Pro 为最强（10-23 上线，3T 级/1M 上下文，开放权重 11-04 前；K2 系开放平台 10-31 停新用户、12 月底退役） |
+| 小米 | MiMo-V2.6-Pro, V2.6 | V2.5 系已于 10-21 下线；9-08 开放 MiMo-X-Pro/Flash-Preview（V3 系列）邀测 |
 | DeepSeek | DeepSeek-V4.1-Flash（09-10 发布）, V4-Pro, V4-Flash | 峰谷计价 |
 | Command Code | taste-1, 50+ 模型 | 关注新模型接入 |
 

@@ -194,7 +194,10 @@
 
 ### 计价方式（重点）
 
-- Kimi 的 Coding 是**会员体系内的权益**（不是独立 Coding Plan）：2026-09/10 改版为 Plus ¥99 / Pro ¥199 / Max ¥699（年付合 ¥79 / ¥159 / ¥559 每月）；Go ¥49 不含 Kimi Code；Plus 及以上含 K3 与 Kimi Code 额度，仅支持 Kimi 自家模型（K2.5/K2.6/K3）
+- Kimi 的 Coding 是**会员体系内的权益**（不是独立 Coding Plan）：2026-09/10 改版为 Plus ¥99 / Pro ¥199 / Max ¥699（年付合 ¥79 / ¥159 / ¥559 每月）；Go ¥49 不含 Kimi Code；Plus 及以上含 Kimi Code 额度，仅支持 Kimi 自家模型（K2.5/K2.6/K3/K3.1 Pro）
+- **2026-10-23 发布 K3.1 Pro**（`kimi-k3.1-pro` / `-highspeed`）：3 万亿级参数、原生视觉、1M 上下文，官网主推「Kimi AI with K3.1 Pro」；已进入国内 Plus ¥99 / Pro ¥199 / Max ¥699 与国际 Plus $19 / Pro $39 / Max $99 / Ultra $199 全档；开放权重 11-04 前释出
+- **K3.1 Pro API 牌价暂未公示**（定价页表格 JS 动态渲染，10-26 抓取为空，AIHOT 亦标「待核验」）：官方口径为「充值 ≥¥10 解锁，统一单价，计费含缓存写入（TTL 5min/1h 两档）+ 输入（命中/未命中）+ 输出」；新用户 15 元代金券不可用于 K3.1 Pro。牌价公布前 apiRefs 暂不收录
+- **K2 系列退场**：开放平台 2026-10-31 起停止向新注册用户开放，计划 12 月底下线全部 K2 模型（存量用户不受影响）；K2.5 API 已于 8-31 下线
 - API 按量：K3 输入 ¥20/输出 ¥100/百万 tokens（缓存命中 ¥2）；K2.7 Code 输入 ¥6.5/输出 ¥27
 - 国际版（membership/pricing?lang=en）价格不同，报告中已单列「Moonshot AI（国际版）」——国外暂不处理，但注意**别把国际版价格混进国内版**
 
@@ -238,10 +241,10 @@
 
 - **Token Plan**：统一 **Credit 积分制**（按 Token 用量换算 Credit 消耗），个人版四档月付 Lite ¥39 / Standard ¥99 / Pro ¥329 / Max ¥659（2026-05-26 升级后全档位 Credits 额度提升 5-8 倍，价格不变）；**2026-09-21 新增团队版三档**（Standard ¥99 / Pro ¥329 / Max ¥659 每坐席，年付 ¥1,044 / ¥3,468 / ¥6,948 每席，额度与个人版同档相同）
   - 快照（升级后）：Lite 4.1B / Standard 11B / Pro 38B / Max 82B Credits/月；包年 ≈ 月付×12 再 88 折
-- **模型代际（2026-10-20 更新）**：V2.6 系列（v2.6-pro / v2.6-flash / v2.6-pro-ultraspeed）为 Token Plan 主力；**V2.5 系（mimo-v2.5-pro / mimo-v2.5）于 2026-10-21 10:00 下线**；MiMo Claw ¥14.9 档改用 V2.6 Flash 计费
+- **模型代际（2026-10-26 更新）**：V2.6 系列（v2.6-pro / v2.6-flash / v2.6-pro-ultraspeed）为 Token Plan 主力；**V2.5 系（mimo-v2.5-pro / mimo-v2.5）已于 2026-10-21 10:00 下线**，个人版四档模型列表已移除 V2.5（牌价行转历史）；MiMo Claw ¥14.9 档改用 V2.6 Flash 计费
 - **消耗倍率**：mimo-v2.6-flash / mimo-v2.5 按 1×、mimo-v2.6-pro / mimo-v2.5-pro 按 2×（超长上下文按 4×）；夜间（0:00-8:00 UTC+8）0.8× 消耗
 - **无 5 小时/周限额**：支持集中消耗，不做滚动窗口限流（区别于大多数竞品）
-- 支持模型：mimo-v2.6-pro / mimo-v2.6-flash（个人版仍可调 v2.5-pro / v2.5 至 10-21 下线）/ mimo-v2.5-asr / mimo-v2.5-tts（TTS 限时免费）等
+- 支持模型：mimo-v2.6-pro / mimo-v2.6-flash（v2.5-pro / v2.5 已于 10-21 下线，个人版不可再调）/ mimo-v2.5-asr / mimo-v2.5-tts（TTS 限时免费）等
 - 优惠：首购 88 折（仅个人版）、连续包年 88 折、夜间 0.8×、新模型优先内测
 - API 按量参考价（模型参考价用）：mimo-v2.6-pro / mimo-v2.5-pro 输入 ¥3 / 输出 ¥6 每百万 tokens（缓存命中输入 ¥0.025）；mimo-v2.6-flash / mimo-v2.5 输入 ¥1 / 输出 ¥2；mimo-v2.6-pro-ultraspeed ¥30/¥60（缓存 ¥0.25，API 专属、不支持批量）
 
